@@ -35,7 +35,7 @@ public class CatalogController {
     public Object update(@PathVariable Long id,@RequestBody Catalog catalog){
         try {
             catalog.setId(id);
-            catalogService.update(catalog);
+            catalogService.updateById(catalog);
             return ServiceResponse.ok();
         } catch (Exception e) {
             e.printStackTrace();

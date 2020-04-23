@@ -11,7 +11,7 @@ public class MysqlPageWrapper<T> {
 	private int offset;
 	private T t;
 	
-	public MysqlPageWrapper(int page, int size) {
+	public MysqlPageWrapper() {
 		this.page = page;
 		this.size = size;
 		this.offset = (this.page - 1)*this.size;

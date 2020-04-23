@@ -29,7 +29,7 @@ public class CatalogServiceImpl implements CatalogService{
     }
 
     @Override
-    public void update(Catalog catalog) {
+    public void updateById(Catalog catalog) {
         catalog.setGmtModified(new Date());
         catalogMapper.updateByPrimaryKeySelective(catalog);
     }

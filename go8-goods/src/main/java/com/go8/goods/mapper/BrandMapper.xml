@@ -24,6 +24,54 @@
     from t_brand
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectCountByCondition" parameterType="com.go8.goods.pojo.Brand"
+          resultType="long">
+    select count(id) from t_brand
+    <where>
+      <if test="cname != null">
+        cname like "%"#{cname}"%"
+      </if>
+      <if test="ename != null">
+        and ename like "%"#{ename}"%"
+      </if>
+      <if test="cid != null">
+        and cid = #{cid}
+      </if>
+      <if test="catName != null">
+        and cat_name = #{catName}
+      </if>
+    </where>
+  </select>
+  <select id="selectByCondition"
+          parameterType="com.go8.admin.common.MysqlPageWrapper"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_brand
+    <if test="t != null">
+      <where>
+        <if test="t.cname != null">
+          cname like "%"#{t.cname}"%"
+        </if>
+        <if test="t.ename != null">
+          and ename like "%"#{t.ename}"%"
+        </if>
+        <if test="t.cid != null">
+          and cid = #{t.cid}
+        </if>
+        <if test="t.catName != null">
+          and cat_name = #{t.catName}
+        </if>
+      </where>
+    </if>
+    limit #{offset},#{size}
+  </select>
+  <select id="selectByCatalogId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_brand
+    where cid = #{cid,jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_brand
     where id = #{id,jdbcType=BIGINT}

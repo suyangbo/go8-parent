@@ -15,7 +15,7 @@ public interface CatalogService {
 
     void add(Catalog catalog);
 
-    void update(Catalog catalog);
+    void updateById(Catalog catalog);
 
     void delete(Long id);
 }
