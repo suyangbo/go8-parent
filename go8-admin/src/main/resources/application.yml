@@ -1,0 +1,15 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: go8-admin
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url:  jdbc:mysql://localhost:3306/go8db?useUnicode=true&characterEncoding=utf8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 111
+    driver-class-name:  com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    root: info

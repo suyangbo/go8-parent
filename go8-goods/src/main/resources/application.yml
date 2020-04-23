@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url:  jdbc:mysql://localhost:3306/go8db?useUnicode=true&characterEncoding=utf8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 111
+    driver-class-name:  com.mysql.cj.jdbc.Driver
+    #druid 配置，线上千万别这么配置，使用默认值就好，否则不能自动重连接
+    # ======================================
+    #druid:
+      #connectionErrorRetryAttempts: 0
+      #breakAfterAcquireFailure: true
+    # ======================================
+logging:
+  level:
+    root: info
