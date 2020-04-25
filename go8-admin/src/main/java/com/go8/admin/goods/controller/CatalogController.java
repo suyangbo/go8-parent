@@ -5,7 +5,6 @@ import com.go8.admin.goods.vo.CatalogTreeVO;
 import com.go8.admin.goods.vo.CatalogVO;
 import com.go8.goods.pojo.Catalog;
 import com.go8.goods.service.CatalogService;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;

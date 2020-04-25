@@ -11,6 +11,7 @@
         <module>go8-admin</module>
         <module>go8-common</module>
         <module>go8-goods</module>
+        <module>fds-upload</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

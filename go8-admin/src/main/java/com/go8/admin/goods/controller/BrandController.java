@@ -68,7 +68,7 @@ public class BrandController {
     public Object getBrandById(@PathVariable Long id){
         logger.debug("params is id:{}",id);
         if(id<=0){
-            logger.warn("params of brand is illegal. id : {}, size : {}",id);
+            logger.warn("params of brand is illegal. id : {}",id);
             return ServiceResponse.illegalArgs();
         }
         try {
