@@ -15,6 +15,7 @@
         <dependency>
             <groupId>com.go8</groupId>
             <artifactId>go8-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- 讲解到商城项目时加入开启此依赖 -->
         <dependency>

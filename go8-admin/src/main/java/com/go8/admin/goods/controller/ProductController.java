@@ -21,7 +21,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	@PostMapping("product")
+	/*@PostMapping("product")
 	public Object add(@RequestBody ProductBody body) {
 		try {
 			logger.debug("request body to java object: "+body.toString());
@@ -31,7 +31,7 @@ public class ProductController {
 			logger.error(e.getMessage());
 			return ServiceResponse.error();
 		}
-	}
+	}*/
 	
 	@GetMapping("product")
 	public Object getProductsByPage(@RequestParam(defaultValue="1")int page,@RequestParam(defaultValue="10")int size,Product product) {
