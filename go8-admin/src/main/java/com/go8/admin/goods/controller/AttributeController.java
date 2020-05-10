@@ -31,7 +31,7 @@ public class AttributeController {
     }
 
     @GetMapping("/list")
-    public Object getAttrAndValue(Attribute attr){
+    public Object getAttrAndValue(Attribute attr) {
         try {
             List<Attribute> list = attributeService.getAttrAndValue(attr);
             return ServiceResponse.ok(list);
@@ -53,7 +53,7 @@ public class AttributeController {
     }
 
     @GetMapping("/value/list")
-    public Object getAttrValue(Long aid){
+    public Object getAttrValue(Long aid) {
         try {
             List<AttributeValue> list = attributeValueService.getValuesByAttrId(aid);
             return ServiceResponse.ok(list);

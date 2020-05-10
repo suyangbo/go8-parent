@@ -1,267 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.go8.goods.mapper.ProductMapper">
-  <resultMap id="BaseResultMap" type="com.go8.goods.pojo.Product">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="cid" jdbcType="BIGINT" property="cid" />
-    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="sub_title" jdbcType="VARCHAR" property="subTitle" />
-    <result column="attributes" jdbcType="VARCHAR" property="attributes" />
-    <result column="price" jdbcType="INTEGER" property="price" />
-    <result column="go8_price" jdbcType="INTEGER" property="go8Price" />
-    <result column="stock" jdbcType="INTEGER" property="stock" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="picture" jdbcType="VARCHAR" property="picture" />
-    <result column="images" jdbcType="VARCHAR" property="images" />
-    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
-    <result column="package_info" jdbcType="VARCHAR" property="packageInfo" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-    <result column="creator" jdbcType="VARCHAR" property="creator" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, cid, brand_id, title, sub_title, attributes, price, go8_price, stock, status, 
-    picture, images, product_code, package_info, gmt_create, gmt_modified, creator
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_product
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectByPage" parameterType="com.go8.admin.common.MysqlPageWrapper" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_product
-    <if test="t != null">
-      <where>
-        <if test="t.title != null">
-          title like "%"#{t.title}"%"
+    <resultMap id="BaseResultMap" type="com.go8.goods.pojo.Product">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="cid" jdbcType="BIGINT" property="cid"/>
+        <result column="brand_id" jdbcType="BIGINT" property="brandId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="sub_title" jdbcType="VARCHAR" property="subTitle"/>
+        <result column="attributes" jdbcType="VARCHAR" property="attributes"/>
+        <result column="price" jdbcType="INTEGER" property="price"/>
+        <result column="go8_price" jdbcType="INTEGER" property="go8Price"/>
+        <result column="stock" jdbcType="INTEGER" property="stock"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="picture" jdbcType="VARCHAR" property="picture"/>
+        <result column="images" jdbcType="VARCHAR" property="images"/>
+        <result column="product_code" jdbcType="VARCHAR" property="productCode"/>
+        <result column="package_info" jdbcType="VARCHAR" property="packageInfo"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, cid, brand_id, title, sub_title, attributes, price, go8_price, stock, status,
+        picture, images, product_code, package_info, gmt_create, gmt_modified, creator
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPage" parameterType="com.go8.admin.common.MysqlPageWrapper" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product
+        <if test="t != null">
+            <where>
+                <if test="t.title != null">
+                    title like "%"#{t.title}"%"
+                </if>
+                <if test="t.cid != null">
+                    and cid = #{t.cid}
+                </if>
+                <if test="t.status != null">
+                    and status = #{t.status}
+                </if>
+            </where>
         </if>
-        <if test="t.cid != null">
-          and cid = #{t.cid}
-        </if>
-        <if test="t.status != null">
-          and status = #{t.status}
-        </if>
-      </where>
-    </if>
-    limit #{offset},#{size}
+        limit #{offset},#{size}
+    </select>
+    <select id="selectCount" parameterType="com.go8.goods.pojo.Product" resultType="long">
+        select count(id) from t_product
+        <where>
+            <if test="title != null">
+                title like "%"#{title}"%"
+            </if>
+            <if test="cid != null">
+                and cid = #{cid}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="selectProductBrandById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select  p.id,p.cid,p.brand_id,p.title,p.sub_title,p.attributes,p.price,p.go8_price,p.stock,p.picture,p.images,p.package_info,b.cname,b.ename,b.logo,b.cat_name,b.url,b.source from t_product p join t_brand b on p.brand_id = b.id
+    where p.id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectCount" parameterType="com.go8.goods.pojo.Product" resultType="long">
-    select count(id) from t_product
-    <where>
-      <if test="title != null">
-        title like "%"#{title}"%"
-      </if>
-      <if test="cid != null">
-        and cid = #{cid}
-      </if>
-      <if test="status != null">
-        and status = #{status}
-      </if>
-    </where>
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from t_product
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.go8.goods.pojo.Product">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into t_product (cid, brand_id, title, 
-      sub_title, attributes, price, 
-      go8_price, stock, status, 
-      picture, images, product_code, 
-      package_info, gmt_create, gmt_modified, 
-      creator)
-    values (#{cid,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
-      #{subTitle,jdbcType=VARCHAR}, #{attributes,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{go8Price,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{picture,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
-      #{packageInfo,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{creator,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.go8.goods.pojo.Product">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into t_product
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cid != null">
-        cid,
-      </if>
-      <if test="brandId != null">
-        brand_id,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="subTitle != null">
-        sub_title,
-      </if>
-      <if test="attributes != null">
-        attributes,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="go8Price != null">
-        go8_price,
-      </if>
-      <if test="stock != null">
-        stock,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="picture != null">
-        picture,
-      </if>
-      <if test="images != null">
-        images,
-      </if>
-      <if test="productCode != null">
-        product_code,
-      </if>
-      <if test="packageInfo != null">
-        package_info,
-      </if>
-      <if test="gmtCreate != null">
-        gmt_create,
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified,
-      </if>
-      <if test="creator != null">
-        creator,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cid != null">
-        #{cid,jdbcType=BIGINT},
-      </if>
-      <if test="brandId != null">
-        #{brandId,jdbcType=BIGINT},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="subTitle != null">
-        #{subTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="attributes != null">
-        #{attributes,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=INTEGER},
-      </if>
-      <if test="go8Price != null">
-        #{go8Price,jdbcType=INTEGER},
-      </if>
-      <if test="stock != null">
-        #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="picture != null">
-        #{picture,jdbcType=VARCHAR},
-      </if>
-      <if test="images != null">
-        #{images,jdbcType=VARCHAR},
-      </if>
-      <if test="productCode != null">
-        #{productCode,jdbcType=VARCHAR},
-      </if>
-      <if test="packageInfo != null">
-        #{packageInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creator != null">
-        #{creator,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.go8.goods.pojo.Product">
-    update t_product
-    <set>
-      <if test="cid != null">
-        cid = #{cid,jdbcType=BIGINT},
-      </if>
-      <if test="brandId != null">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_product
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.go8.goods.pojo.Product">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_product (cid, brand_id, title,
+        sub_title, attributes, price,
+        go8_price, stock, status,
+        picture, images, product_code,
+        package_info, gmt_create, gmt_modified,
+        creator)
+        values (#{cid,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+        #{subTitle,jdbcType=VARCHAR}, #{attributes,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER},
+        #{go8Price,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+        #{picture,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR},
+        #{packageInfo,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
+        #{creator,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.go8.goods.pojo.Product">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cid != null">
+                cid,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="subTitle != null">
+                sub_title,
+            </if>
+            <if test="attributes != null">
+                attributes,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="go8Price != null">
+                go8_price,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="picture != null">
+                picture,
+            </if>
+            <if test="images != null">
+                images,
+            </if>
+            <if test="productCode != null">
+                product_code,
+            </if>
+            <if test="packageInfo != null">
+                package_info,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cid != null">
+                #{cid,jdbcType=BIGINT},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="subTitle != null">
+                #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="attributes != null">
+                #{attributes,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=INTEGER},
+            </if>
+            <if test="go8Price != null">
+                #{go8Price,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="picture != null">
+                #{picture,jdbcType=VARCHAR},
+            </if>
+            <if test="images != null">
+                #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="productCode != null">
+                #{productCode,jdbcType=VARCHAR},
+            </if>
+            <if test="packageInfo != null">
+                #{packageInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.go8.goods.pojo.Product">
+        update t_product
+        <set>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=BIGINT},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="subTitle != null">
+                sub_title = #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="attributes != null">
+                attributes = #{attributes,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=INTEGER},
+            </if>
+            <if test="go8Price != null">
+                go8_price = #{go8Price,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="picture != null">
+                picture = #{picture,jdbcType=VARCHAR},
+            </if>
+            <if test="images != null">
+                images = #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="productCode != null">
+                product_code = #{productCode,jdbcType=VARCHAR},
+            </if>
+            <if test="packageInfo != null">
+                package_info = #{packageInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.go8.goods.pojo.Product">
+        update t_product
+        set cid = #{cid,jdbcType=BIGINT},
         brand_id = #{brandId,jdbcType=BIGINT},
-      </if>
-      <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="subTitle != null">
         sub_title = #{subTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="attributes != null">
         attributes = #{attributes,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
         price = #{price,jdbcType=INTEGER},
-      </if>
-      <if test="go8Price != null">
         go8_price = #{go8Price,jdbcType=INTEGER},
-      </if>
-      <if test="stock != null">
         stock = #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
         status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="picture != null">
         picture = #{picture,jdbcType=VARCHAR},
-      </if>
-      <if test="images != null">
         images = #{images,jdbcType=VARCHAR},
-      </if>
-      <if test="productCode != null">
         product_code = #{productCode,jdbcType=VARCHAR},
-      </if>
-      <if test="packageInfo != null">
         package_info = #{packageInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creator != null">
-        creator = #{creator,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.go8.goods.pojo.Product">
-    update t_product
-    set cid = #{cid,jdbcType=BIGINT},
-      brand_id = #{brandId,jdbcType=BIGINT},
-      title = #{title,jdbcType=VARCHAR},
-      sub_title = #{subTitle,jdbcType=VARCHAR},
-      attributes = #{attributes,jdbcType=VARCHAR},
-      price = #{price,jdbcType=INTEGER},
-      go8_price = #{go8Price,jdbcType=INTEGER},
-      stock = #{stock,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      picture = #{picture,jdbcType=VARCHAR},
-      images = #{images,jdbcType=VARCHAR},
-      product_code = #{productCode,jdbcType=VARCHAR},
-      package_info = #{packageInfo,jdbcType=VARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        creator = #{creator,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

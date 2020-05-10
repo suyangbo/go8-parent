@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class BrandServiceImpl implements BrandService{
+public class BrandServiceImpl implements BrandService {
 
     @Autowired
     private BrandMapper brandMapper;
@@ -42,7 +42,7 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public void deleteByIds(String ids) {
         String[] aid = ids.split(",");
-        for (String sd:aid){
+        for (String sd : aid) {
             long id = Long.parseLong(sd);
             brandMapper.deleteByPrimaryKey(id);
         }

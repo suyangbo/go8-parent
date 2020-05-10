@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>go8</title>
+    <link rel="stylesheet" href="./style/style.css">
+	<link rel="stylesheet" href="./style/detail.css">
+</head>
+
+<body>
+    <!-- 顶部栏目 -->
+	<div id="header" th:insert="header :: header"></div>
+	<!-- 搜索 -->
+	<div id="search" th:replace="header :: search"></div>
+    <div id="product" class="wrap">
+        <!-- 购买 -->
+        <div class="buy">
+            <div class="swipe">
+                <div class="hd">
+                    <a class="prev" href="javascript:void(0)"></a>
+                    <ul>
+                        <li v-for="image in imagesArray"><img :src="image" alt=""></li>
+                    </ul>
+                    <a class="next" href="javascript:void(0)"></a>
+                </div>
+                <div class="bd">
+                    <ul>
+                        <li v-for="image in imagesArray"><img :src="image" alt=""></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="select">
+                <h2 class="title">{{product.title}}</h2>
+                <p class="intr">
+                    <span>{{product.subTitle}}</span>
+                    <b>¥ {{price}}</b>
+                </p>
+                <div class="opt">
+                	<template v-for="(spec,outdex) in attributes.specs">
+                		<div class="setColor" v-if="spec.name=='颜色'">
+		                    <label>{{spec.name}}</label>
+		                    <ol>
+		                        <li :ref="outdex+''+index" v-for="(item,index) in spec.values" 
+	                                @click="clickSpec(outdex,index,outdex+''+index)">
+		                            <p v-text="item.value"></p>
+		                        </li>
+		                    </ol>
+	                	</div>
+	                	<div class="setSize" v-else>
+		                    <label>{{spec.name}}</label>
+		                    <ol>
+		                        <li :ref="outdex+''+index" v-for="(item,index) in spec.values" 
+	                                @click="clickSpec(outdex,index,outdex+''+index)">
+		                            <p v-text="item.value"></p>
+		                        </li>
+		                    </ol>
+	                	</div>
+                	</template>
+	                <div class="setNum">
+	                    <label>数量</label>
+	                    <div class="nbox">
+	                        <b class="minus" @click="minus()"></b>
+	                        <input class="ret" type="text" v-model="num">
+	                        <b class="plus" @click="num+=1"></b>
+	                    </div>
+	                </div>
+                </div> 
+                <div class="btns">
+                    <a href="javascript:">立即购买</a>
+                    <a @click="addCart">加入购物车</a>
+                </div>
+            </div>
+        </div>
+        <!-- 详情 -->
+        <div class="detail">
+            <h2 class="head">产品信息</h2>
+			<div id="attributes" class="attributes">
+				<div class="attributes-list" id="J_AttrList">
+					<div class="tm-clear tb-hidden tm_brandAttr" id="J_BrandAttr" style="display: block;">
+						<div class="name" v-if="product.brand">
+							品牌名称：<b class="J_EbrandLogo" target="_blank">{{product.brand.ename}}/{{product.brand.cname}}</b>
+						</div>
+					</div>
+					<em>&nbsp;</em>
+					<p class="attr-list-hd tm-clear">
+						<em>产品参数：</em>
+					</p>
+					<ul id="J_AttrUL">
+						<li v-for="attr in attributes.attrs" v-if="attr.values.length" title="">{{attr.name}}：
+							<template v-for="value in attr.values">
+								{{value.value}}&nbsp;
+							</template>
+						</li>
+					</ul>
+				</div>
+			</div>
+            <div class="cont" v-if="detail" v-html="detail">
+            </div>
+        </div>
+    </div>
+    <div id="footer" th:insert="footer :: copy"></div>
+    
+    <script src="./script/SuperSlide.js"></script>
+    <script th:inline="javascript">
+	//轮播商品图片
+    jQuery(document).ready(function(){
+        jQuery(".swipe").slide({
+             mainCell:".bd ul",
+             effect:"top",
+             autoPlay:false,
+             triggerTime:0 ,
+			 startFun:function( i,c,s ){ 
+				 if(GO8.PRODUCT.slideObject.replace){
+					jQuery(".buy .swipe div.bd ul li").eq(GO8.PRODUCT.slideObject.index).replaceWith(GO8.PRODUCT.slideObject.li)
+					GO8.PRODUCT.slideObject.replace = false
+				 }
+				 GO8.PRODUCT.slideObject.index=i; 
+			}
+        })
+    })  
+	//model namespace product
+	GO8.PRODUCT = GO8.PRODUCT || {}
+	//标记是否替换了图像
+	GO8.PRODUCT.slideObject = {"index":0,"li":null,"replace":false}
+	//vue instance
+    new Vue({
+        el: "#product",
+        data: {
+			product:/*[[${product}]]*/ ,
+			attributes:[(${product.attributes})] ,
+			detail:/*[[${detail.html}]]*/ ,
+			skus:/*[[${skus}]]*/ ,
+            //记录选择的规格,默认下标对应规格属性的下标,数组里的值对应的是属性值下标
+			indexes: [],
+            num: 1,
+			sku: null,
+			price : 0
+        },
+        computed: {
+            imagesArray:function(){
+            	return this.product.images.split(",")
+            },
+			cprice:function(){
+				this.price = this.product.go8Price/100
+				return this.price
+			}
+        },
+        methods: {
+            minus() {
+                if (this.num > 1) {
+                    this.num-=1
+                } 
+            },
+			clickSpec(outdex,index,refid){
+				//cancel all actived
+				for(let i=0; i<this.$refs[refid][0].parentElement.children.length;i++){
+					this.$refs[refid][0].parentElement.children[i].className = ""
+				}
+				// record index and set active
+				this.indexes[outdex] = index
+				this.$refs[refid][0].className = "active"
+				//判断是否是颜色属性
+				let name = this.attributes.specs[outdex].name
+				if(name == '颜色'){
+					let picture = null
+					let value = this.attributes.specs[outdex].values[index].value
+					for(let i=0; i<this.skus.length;i++){
+						let flag = false
+						let sku = this.skus[i]
+						//这里sku.attrs 是字符串,需要转换成对象
+						let arry = JSON.parse(sku.attrs)
+						for(let j=0;j<arry.length;j++){
+							let spec = arry[j]
+							if(spec.name == '颜色' && spec.value==value){
+								flag = true
+								picture = sku.picture
+								break
+							}
+						}
+						if(flag){
+							break
+						}
+					}
+					//设置主图
+					let html = "<li style='height: 550px;'><img src='"+picture+"'></li>"
+					GO8.PRODUCT.slideObject.li = jQuery(".buy .swipe div.bd ul li").eq(GO8.PRODUCT.slideObject.index)[0]
+					jQuery(".buy .swipe div.bd ul li").eq(GO8.PRODUCT.slideObject.index).replaceWith(html)
+					GO8.PRODUCT.slideObject.replace = true
+				}
+				
+				//当所有的属性都至少有一个被选后,才能确定skuid
+				for(let i=0;i<this.indexes.length;i++){
+					if(this.indexes[i]==-1){
+						return
+					}
+				}
+				
+				// confirm skuid
+				//get all selected specs vlaues
+				let specs = []
+				for(let i=0;i<this.indexes.length;i++){
+					let attrid = this.attributes.specs[i].id
+					let value = this.attributes.specs[i].values[this.indexes[i]].value
+					specs.push({'aid':attrid,'value':value})
+				}
+				//loop compare to get the sku
+				for(let i=0; i<this.skus.length;i++){
+					let sku = this.skus[i]
+					let flag = false
+					//这里sku.attrs 是字符串,需要转换成对象
+					let arry = JSON.parse(sku.attrs)
+					for(let j=0;j<arry.length;j++){
+						let spec = arry[j]
+						for(let k=0;k<specs.length;k++){
+							if(specs[k].aid == spec.aid && specs[k].value==spec.value){
+								flag = true
+								break
+							}
+						}
+						if(flag){
+							//如果都找到了,就对了,保存值,然后返回
+							if(j == arry.length-1){
+								this.sku = sku
+								//update price
+								this.price = this.sku.go8Price/100
+								console.log('sku: '+JSON.stringify(this.sku))
+								return
+							}else{
+								//找到了一个,继续找下一个
+								flag = false
+								continue
+							}
+						}else{
+							flag =false
+							break
+						}
+					}
+				}
+			},
+			// add cart
+			addCart(){
+				let goods = {}
+				if(this.skus && this.skus.length>0){
+					// 有规格并选择了规格
+					if(this.sku){
+						if(this.sku.stock<this.num){
+							this.$Message.error('库存不足');
+							return
+						}else{
+							goods.id = this.sku.id
+							goods.name = this.product.title
+							goods.image = this.sku.picture
+							goods.number = this.num
+							goods.price = this.price
+						}
+					}else{
+						this.$Message.error('请选择规格数据');
+						return
+					}
+				}else{
+					//没有规格的商品
+					if(this.product.stock<this.num){
+						this.$Message.error('库存不足');
+						return
+					}else{
+						goods.id = this.product.id
+						goods.name = this.product.title
+						goods.image = this.product.picture
+						goods.number = this.num
+						goods.price = this.price
+					}
+				}
+				goods.price = goods.price*100
+				
+				//add cookie
+				let list = Cookies.get(GO8.CART_KEY)
+				if(list){
+					list = JSON.parse(list)
+				}else{
+					list = []
+				}
+				// 如果cookie为空，则直接添加
+				if(list.length===0){
+					// 添加到list
+					list.push(goods);
+				}else{
+					// 先判断cookie中有无相同的id商品
+					let i
+					for(i=0;i<list.length;i++){
+						// 如果商品已经存在cookie中，则数量+num
+						if(list[i].id === goods.id){
+							list[i].number += goods.number;
+							break;
+						}
+					}
+					// 如果原cookie中没有当前商品
+					if(i===list.length){
+						// 添加到list
+						list.push(goods);
+					}
+				}
+				//本地存储
+				console.log(JSON.stringify(list))
+				Cookies.set(GO8.CART_KEY,JSON.stringify(list))
+				console.log("set cart ok")
+				//判断是否登录,如果登录了，合并购物车到服务器
+				if(vueUser.user.userName){
+					console.log(JSON.stringify(list))
+					jQuery.ajax({
+						url:GO8.DN.ROOT+"cart/sync",
+						type:'post',
+						data:{'userId':vueUser.user.id,"cart":JSON.stringify(list)},
+						dataType:'json',
+						success:function(res){
+							if(res.status.code == 2000 && res.data){
+								console.log("sync cart ok")
+								console.log(res.data)
+								Cookies.set(GO8.CART_KEY,JSON.stringify(res.data))
+							}
+						}
+					})
+				}
+				
+				//add success page
+				window.location.href='cartSuccess.html?id='+ (this.sku?this.sku.id:this.product.id)+'&title='+this.product.title
+			}
+		},
+		created:function(){
+			//初始化价格
+			this.price = this.product.go8Price/100
+			for(let i=0; i<this.attributes.specs.length;i++){
+				this.indexes.push(-1)
+			}
+		}
+    })
+    </script>
+</body>
+
+</html>

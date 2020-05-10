@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CatalogServiceImpl implements CatalogService{
+public class CatalogServiceImpl implements CatalogService {
 
     @Autowired
     private CatalogMapper catalogMapper;
@@ -17,7 +17,7 @@ public class CatalogServiceImpl implements CatalogService{
     @Override
     public void add(Catalog catalog) {
         Catalog parent = catalogMapper.selectByPrimaryKey(catalog.getPid());
-        if (parent !=null && !parent.getParent()){
+        if (parent != null && !parent.getParent()) {
             parent.setGmtModified(new Date());
             parent.setParent(true);
             catalogMapper.updateByPrimaryKeySelective(parent);
@@ -37,14 +37,14 @@ public class CatalogServiceImpl implements CatalogService{
     @Override
     public void delete(Long id) {
         Catalog catalog = catalogMapper.selectByPrimaryKey(id);
-        if (catalog!=null && catalog.getParent()){
+        if (catalog != null && catalog.getParent()) {
             deleteSonsByPid(id);
         }
         catalogMapper.deleteByPrimaryKey(id);
-        if(catalog!=null){
+        if (catalog != null) {
             Long pid = catalog.getPid();
             List<Catalog> list = catalogMapper.selectSonsByPid(pid);
-            if(list==null || list.size()==0){
+            if (list == null || list.size() == 0) {
                 Catalog parent = new Catalog();
                 parent.setId(pid);
                 parent.setParent(false);
@@ -56,12 +56,12 @@ public class CatalogServiceImpl implements CatalogService{
 
     private void deleteSonsByPid(Long pid) {
         List<Catalog> sons = catalogMapper.selectSonsByPid(pid);
-        if (sons!=null){
-            for (Catalog cat:sons){
-                if(cat.getParent()){
+        if (sons != null) {
+            for (Catalog cat : sons) {
+                if (cat.getParent()) {
                     deleteSonsByPid(cat.getId());
                     catalogMapper.deleteByPrimaryKey(cat.getId());
-                }else{
+                } else {
                     catalogMapper.deleteByPrimaryKey(cat.getId());
                 }
             }
@@ -87,9 +87,9 @@ public class CatalogServiceImpl implements CatalogService{
     public List<Catalog> getAllChildrenByPid(Long pid) {
         //先获取第一节
         List<Catalog> list = catalogMapper.selectSonsByPid(pid);
-        for(Catalog cat : list) {
+        for (Catalog cat : list) {
             //如果是父节点继续查子节点
-            if(cat.getParent()) {
+            if (cat.getParent()) {
                 List<Catalog> sons = getAllChildrenByPid(cat.getId());
                 cat.setChildren(sons);
             }

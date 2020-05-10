@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>go8商城</title>
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+
+<body>
+    <!-- 顶部栏目 -->
+	<div id="header" th:insert="header :: header"></div>
+	<!-- 搜索 -->
+	<div id="search" th:replace="header :: search"></div>
+    <div class="wrap">
+        <!-- 购物车 -->
+        <h2 class="myCart">我的购物车 <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</span></h2>
+        <div class="cart">
+            <div class="head">
+                <span class="ch1">商品信息</span>
+                <span class="ch2">单价</span>
+                <span class="ch3">数量</span>
+                <span class="ch4">小计</span>
+                <span class="ch5">操作</span>
+            </div>
+            <ul class="list" v-if="list">
+                <li v-for="(item,index) in list">
+                    <em :class="['checkBtn',{'active':item.check}]" @click="select(item)"></em>
+                    <img :src="item.image" alt="">
+                    <div class="info">
+                        <div>
+                            <h6 v-text="item.name"></h6>
+                        </div>
+                    </div>
+                    <div class="price">
+                        <p v-text="'¥ ' + (item.price/100)"></p>
+                    </div>
+                    <div class="cnbox">
+                        <div class="nbox">
+                            <b class="minus" @click="minus(index)"></b>
+                            <input class="ret" type="text" v-model="item.number">
+                            <b class="plus" @click="add(index)"></b>
+                        </div>
+                    </div>
+                    <div class="price">
+                        <p v-text="'¥ ' + item.number*(item.price/100)"></p>
+                    </div>
+                    <div class="copt">
+                        <b @click="del(index)"></b>
+                    </div>
+                </li>
+            </ul>
+            <div class="total">
+                <em class="checkBtn" 
+                    :class="{'active':selectArr}"
+                    @click="selectAll()"></em>
+                <span class="selectAll" @click="selectAll()">全选</span>
+                <span class="del" @click="deleteSelGoods">删除选中商品</span>
+                <div class="fr">
+                    <span class="totalNum">共 <b v-text="totalNum"></b> 件商品</span>
+                    <span class="totalMoney">应付金额： <b v-text="'¥ ' + totalMoney"></b></span>
+                    <a class="goCheck" href="javascript:(void)" @click="toConfirmOrder">去结算</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" th:insert="footer :: copy"></div>
+    <script>
+    //服务端购物车，页面加载时完成数据的同步加载
+    if(vueUser.user.userName){
+    	jQuery.ajax({
+			url:GO8.DN.ROOT+'cart/list',
+			type:'get',
+			data:{'userId':vueUser.user.id},
+			dataType:'json',
+			async: true,
+			success:function(res){
+				if(res.status.code == 2000 && res.data){
+					console.log("get server cart success")
+					console.log(res.data)
+					//服务端cartss
+		        	let cartss = res.data
+		        	//如果本地没有数据，直接赋值服务器端的
+		        	if(vueCart.list.length===0){
+		        		for(let i=0;i<cartss.length;i++){
+		        			vueCart.list.push(cartss[i])
+		        		}
+		        	}else{
+		        		if(cartss && cartss.length > 0){
+		    				//服务端有数据,合并购物车
+		    				//not find 就添加，已经有了，还是以客户端数据为准
+		    				for(let i=0;i<cartss.length;i++){
+		    					let id = cartss[i].id
+		    					let find = false
+		    					for(let k=0; k<vueCart.list.length;k++){
+		    						if(vueCart.list[k].id===id){
+		    							find = true
+		    							break
+		    						}
+		    					}
+		    					//add
+		    					if(!find){
+		    						vueCart.list.push(cartss[i])
+		    					}
+		    				}
+		    			}
+		        	}
+					//同步cookie
+					//本地存储
+					Cookies.set(GO8.CART_KEY,JSON.stringify(vueCart.list))
+					vueCart.syncCart(vueUser.user.id)
+					console.log(vueCart.list)
+				}
+			}
+		})
+	}
+    
+    var vueCart = new Vue({
+        el: ".cart",
+        data: {
+            list: [],
+            selectArr: false
+        },
+        computed: {
+            totalNum() {
+                var total = 0;
+                this.list.map(function(item, index, input) {
+                    total += item.number;
+                })
+                return total
+            },
+            totalMoney() {
+                var total = 0;
+                this.list.map(function(item, index, input) {
+                    total += item.number * (item.price/100);
+                })
+                return total
+            }
+        },
+        methods: {
+            minus(index) {
+                if (this.list[index].number > 1) {
+                    this.list[index].number-=1
+                  	//本地存储
+            		Cookies.set(GO8.CART_KEY,JSON.stringify(this.list))
+            		if(vueUser.user.userName){
+            			this.syncCart(vueUser.user.id)
+            		}
+                } 
+            },
+            add(index) {
+                this.list[index].number+=1
+              	//本地存储
+        		Cookies.set(GO8.CART_KEY,JSON.stringify(this.list))
+        		if(vueUser.user.userName){
+        			this.syncCart(vueUser.user.id)
+        		}
+            },
+            del(index) {
+            	this.list.splice(index,1)
+        		//本地存储
+        		Cookies.set(GO8.CART_KEY,JSON.stringify(this.list))
+        		if(vueUser.user.userName){
+        			this.syncCart(vueUser.user.id)
+        		}
+            },
+            select(item){
+                if (!item.check) {
+                    this.$set(item,'check', true)
+                }else {
+                    this.$set(item,'check', false)
+                }
+            },
+            selectAll(){
+                if (!this.selectArr) {
+                    this.list.forEach((item)=>{
+                        return this.$set(item,'check', true)
+                    })
+                    this.selectArr = true
+                }else {
+                    this.list.forEach((item)=>{
+                        return this.$set(item,'check', false)
+                    })
+                    this.selectArr = false
+                }
+            },
+            deleteSelGoods(){
+            	for(let i=0;i<this.list.length;i++){
+            		if(this.list[i].check){
+            			this.list.splice(i,1)
+            		}
+            	}
+            	//本地存储
+        		Cookies.set(GO8.CART_KEY,JSON.stringify(this.list))
+        		if(vueUser.user.userName){
+        			this.syncCart(vueUser.user.id)
+        		}
+            },
+            toConfirmOrder:function(){
+            	if(Cookies.get(GO8.TOKEN_KEY))
+					window.location.href = GO8.DN.ORDER+"order.html?token="+Cookies.get(GO8.TOKEN_KEY)
+				else
+					window.location.href = GO8.DN.ORDER+"order.html"
+            },
+          	//同步服务器
+        	syncCart:function(userId){
+        		let data = Cookies.get(GO8.CART_KEY)
+        		if(data){
+        			jQuery.ajax({
+	        			url:GO8.DN.ROOT+'cart/sync',
+	        			type:'post',
+	        			data:{'userId':userId,"cart":data},
+	        			dataType:'json',
+	        			success:function(res){
+	        				if(res.status.code == 2000 && res.data){
+	        					console.log("cart sync success")
+	        				}
+	        			}
+        			})
+        		}
+        	},
+        },
+        created:function(){
+        	//该方法中不能调用同步的ajax方法，所以尽量不要在里面调用需要同步获取数据的方法
+        	//load cookies cart data
+        	let data = Cookies.get(GO8.CART_KEY)
+    		if(data){
+    			let cart = JSON.parse(data)
+    			for(let i=0;i<cart.length;i++){
+    				this.list.push(cart[i])
+    			}
+    		}
+        }
+    })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+	<title>go8商城</title>
+	<link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+	<!-- 顶部栏目 -->
+	<div id="header" th:insert="header :: header"></div>
+	<!-- 搜索 -->
+	<div id="search" th:replace="header :: search"></div>
+	<div class="wrap">
+		<!-- 分类 / 轮播 -->
+		<div class="indexbox">
+			<div class="banner">
+				<div class="bd">
+					<ul>
+						<li th:each="roll : ${rolls}">
+							<a class="box" th:href="@{${roll.link}}">
+								<img th:src="@{${roll.image}}" alt="">
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="hd">
+					<ul></ul>
+				</div>
+			</div>
+			<div class="cate">
+				<ul class="cate1">
+					<li v-for="catalog in catalogs" class="cate1-li">
+						<span class="cate1-t">{{catalog.name}}</span>
+						<ul class="cate2">
+							<li v-for="son in catalog.children" class="cate2-li">
+								<a href="javascript:void()" @click="catalogClick(son.name)">
+									<p class="cate2-t">{{son.name}}</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 广告 -->
+		<div class="adbox">
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/ad1.png" alt="">
+					<h6>mac mini</h6>
+					<p>仅售 rmb3588</p>
+				</a>
+			</div>
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/ad2.png" alt="">
+					<h6>iphone 手机壳</h6>
+					<p>仅售 rmb3588</p>
+				</a>
+			</div>
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/ad3.png" alt="">
+					<h6>关注微信公众号</h6>
+					<p>查看官网最新活动</p>
+				</a>
+			</div>
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/ad4.png" alt="">
+					<h6>iphone 6s plus</h6>
+					<p>查看官网最新活动</p>
+				</a>
+			</div>
+		</div>
+		<!-- 热门商品 -->
+		<div class="indexHead">
+			<h5>热门商品</h5>
+			<a class="link" href="#">更多</a>
+		</div>
+		<div class="gList">
+			<ul class="list">
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 官方精选 -->
+		<div class="indexHead">
+			<h5>官方精选</h5>
+			<a class="link" href="#">更多</a>
+		</div>
+		<div class="gList spec">
+			<ul class="list">
+				<a class="specOne" href="#">
+					<img src="./images/pc1.png" alt="">
+				</a>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 品牌精选 -->
+		<div class="indexHead">
+			<h5>品牌精选</h5>
+			<ul>
+				<li class="active"><a href="#">热门</a></li>
+				<li><a href="#">耳机</a></li>
+				<li><a href="#">手表</a></li>
+				<li><a href="#">充电宝</a></li>
+			</ul>
+		</div>
+		<div class="gList spec">
+			<ul class="list">
+				<a class="specOne" href="#">
+					<img src="./images/pc2.png" alt="">
+				</a>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+				<li>
+					<div class="gPic">
+						<img src="./images/gpic2.jpg" alt="">
+					</div>
+					<h5 class="title">series 1</h5>
+					<p class="info">银色铝金属表壳搭配白色运动型表带</p>
+					<div class="switch">
+						<p class="price">RMB 2188</p>
+						<p class="btns">
+							<a class="goDetail" href="#">查看详情</a>
+							<a class="goCart" href="#">加入购物车</a>
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 网站科技动态  -->
+		<div class="indexHead">
+			<h5>网站科技动态</h5>
+		</div>
+		<div class="adbox info">
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/n1.png" alt="">
+					<h6>macbook</h6>
+					<p>轻于时代，先于时代</p>
+				</a>
+			</div>
+			<div class="sbox">
+				<a class="link pic" href="#">
+					<img src="./images/n2.png" alt="">
+				</a>
+			</div>
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/ad3.png" alt="">
+					<h6>关注微信公众号</h6>
+					<p>查看官网最新活动</p>
+				</a>
+			</div>
+			<div class="sbox">
+				<a class="link" href="#">
+					<img src="./images/n4.png" alt="">
+					<h6>新电脑科技 温州发布会</h6>
+					<p>查看官网最新活动</p>
+				</a>
+			</div>
+		</div>
+
+	</div>
+	<!-- 底部 -->
+	<div id="footer" th:insert="footer :: copy"></div>
+	<script src="./script/Superslide.js"></script>
+	<script>
+		jQuery(".banner").slide({
+			mainCell: ".bd ul",
+			titCell: ".hd ul",
+			effect: "leftLoop",
+			autoPage: true,
+			delayTime: 500,
+			autoPlay: true
+		});
+		var vueCate = new Vue({
+			el:'.cate',
+			data:{
+				catalogs:[
+					/*测试数据 {id:1,name:'hao xiao',children:[
+						{id:20,name:'son'},
+						{id:20,name:'son'},
+					]}, */
+				] 
+			},
+			methods:{
+				catalogClick(cname){
+					window.location.href = GO8.DN.ROOT+"list.html?q="+cname
+				}
+			},
+			mounted:function() {
+				//查询分类数据
+				//jQuery代码很奇葩,如果url写错,不报错,但也没反应,请注意
+				jQuery.ajax({
+					url:GO8.DN.ROOT+'catalogs/all',
+					type:'get',
+					data:{pid:0},
+					dataType:'json',
+					success:function(res){
+						vueCate.catalogs=res.data
+					}
+				})
+				console.log(this.$el)
+			}
+		})
+	</script>
+</body>
+</html>

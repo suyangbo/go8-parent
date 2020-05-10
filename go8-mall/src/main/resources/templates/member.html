@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>shop</title>
+    <link rel="stylesheet" href="./style/style.css">
+	
+</head>
+
+<body>
+    <!-- 顶部栏目 -->
+    <div id="header">
+        <div class="wrap">
+            <div class="logo">
+                <h1>COMPUTER</h1>
+            </div>
+            <div class="fr">
+                <div class="user">
+                    <a href="#"></a>
+                </div>
+                <div class="search">
+                    <a href="#"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap">
+        <!-- 导航 -->
+        <ul class="nav">
+            <li><a href="#">首页</a></li>
+            <li class="active"><a href="#">列表</a></li>
+            <li><a href="#">详情</a></li>
+            <li><a href="#">购物车</a></li>
+            <li><a href="#">全部商品</a></li>
+        </ul>
+        
+		<div id="member">
+			<div class="layout">
+				<Layout>
+					<Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
+						<i-menu @on-select="onSelectMenu" active-name="收货地址" theme="dark" width="auto" :class="menuitemClasses">
+							<div data-v-4ce50e49="" class="user-icon">
+								<div data-v-4ce50e49="" class="user-img">
+									<Avatar size="large" style="background-color: #87d068; width: 40px; height: 40px;" icon="ios-person" />
+								</div> 
+								<p data-v-4ce50e49="">{{member.userName}}</p>
+							</div>
+							<menu-item name="收货地址">
+								<Icon type="ios-navigate"></Icon>
+								<span>收货地址</span>
+							</menu-item>
+							<menu-item name="个人资料">
+								<Icon type="ios-navigate"></Icon>
+								<span>个人资料</span>
+							</menu-item>
+							<menu-item name="安全设置">
+								<Icon type="ios-navigate"></Icon>
+								<span>安全设置</span>
+							</menu-item>
+						</i-menu>
+						<div slot="trigger"></div>
+					</Sider>
+					<Layout>
+						<i-header class="layout-header-bar"><span style="font-weight: bold;font-size: large;">{{menuName}}</span></i-header>
+						<i-content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
+							<div style="background:#eee;padding: 20px">
+								<Card :bordered="false">
+									<p slot="title">新增收货地址</p>
+									<i-form ref="memberAddress" :model="memberAddress" :rules="ruleInline" style="width: 60%;" :label-width="100">
+										<Row>
+											<Col span="6">
+												<form-item label="省" prop="province">
+													<i-input type="text" v-model="memberAddress.province" placeholder="省份">
+													</i-input>
+												</form-item>
+											</Col>
+											<Col span="6">
+												<form-item label="市" prop="city">
+													<i-input type="text" v-model="memberAddress.city" placeholder="城市">
+													</i-input>
+												</form-item>
+											</Col>
+											<Col span="6">
+												<form-item label="区" prop="area">
+													<i-input type="text" v-model="memberAddress.area" placeholder="区">
+													</i-input>
+												</form-item>
+											</Col>
+											<Col span="6">
+												<form-item label="街道" prop="street">
+													<i-input type="text" v-model="memberAddress.street" placeholder="街道">
+													</i-input>
+												</form-item>
+											</Col>
+										</Row>
+										<form-item label="详细地址" prop="address">
+											<i-input type="text" v-model="memberAddress.address" placeholder="详细地址">
+											</i-input>
+										</form-item>
+										<form-item label="邮政编码" prop="zip">
+											<i-input type="text" v-model="memberAddress.zip" placeholder="邮政编码">
+											</i-input>
+										</form-item>
+										<form-item label="收货人姓名" prop="person">
+											<i-input type="text" v-model="memberAddress.person" placeholder="收货人姓名">
+											</i-input>
+										</form-item>
+										<form-item label="手机号码" prop="phone">
+											<i-input type="text" v-model="memberAddress.phone" placeholder="手机号码">
+											</i-input>
+										</form-item>
+										<form-item label="" prop="yesDefault">
+											<Checkbox v-model="memberAddress.yesDefault">设置为默认收货地址</Checkbox>
+										</form-item>
+										<form-item>
+											<i-button type="primary" @click="handleSubmit('memberAddress')">保 存</i-button>
+										</form-item>
+									</i-form>
+								</Card>
+								<Card :bordered="false">
+									<p slot="title">已添加地址列表</p>
+									<i-table :columns="columns" :data="addressData"></i-able>
+								</Card>
+							</div>
+						</i-content>
+					</Layout>
+				</Layout>
+			</div>
+		</div>
+		
+    </div>
+    <div id="footer">
+        <div class="wrap">
+            <div class="footTop">
+                <dl>
+                    <dt>订单服务</dt>
+                    <dd><a href="#">购买指南</a></dd>
+                    <dd><a href="#">支付方式</a></dd>
+                    <dd><a href="#">送货政策</a></dd>
+                </dl>
+                <dl>
+                    <dt>服务支持</dt>
+                    <dd><a href="#">售后服务</a></dd>
+                    <dd><a href="#">维修门店</a></dd>
+                    <dd><a href="#">零售门店</a></dd>
+                </dl>
+                <dl>
+                    <dt>自主服务</dt>
+                    <dd><a href="#">热点咨询</a></dd>
+                    <dd><a href="#">预约购买</a></dd>
+                    <dd><a href="#">订单物流</a></dd>
+                </dl>
+                <dl>
+                    <dt>媒体中心</dt>
+                    <dd><a href="#">新闻动态</a></dd>
+                    <dd><a href="#">官方视频</a></dd>
+                    <dd><a href="#">图片资源</a></dd>
+                </dl>
+                <dl>
+                    <dt>关于公司</dt>
+                    <dd><a href="#">公司简介</a></dd>
+                    <dd><a href="#">加入我们</a></dd>
+                    <dd><a href="#">联系我们</a></dd>
+                </dl>
+                <dl>
+                    <dt>关注我们</dt>
+                    <dd><a href="#">新浪微博</a></dd>
+                    <dd><a href="#">官方微信</a></dd>
+                    <dd><a href="#">官方贴吧</a></dd>
+                </dl>
+                <div class="info">
+                    <h6>400-123-1234</h6>
+                    <p>周一至周日 9:00—18:00（仅收市话费）</p>
+                </div>
+            </div>
+            <div class="footBtm">
+                <p>Copyright © 2017, Smartisan Digital Co., Ltd. All Rights Reserv</p>
+            </div>
+        </div>
+    </div>
+	
+    <link rel="stylesheet" href="./style/iview.css">
+    <script src="./script/vue.min.js"></script>
+    <script src="./script/iview.min.js"></script>
+    <script src="./script/js.cookie.min.js"></script>
+	<script src="./script/jquery.min.js"></script>
+    <script th:inline="javascript">
+		new Vue({
+			el:"#member",
+			data:{
+				isCollapsed: false,
+				member: /*[[${member}]]*/ {},
+				menuName : '收货地址',
+				memberAddress: {
+                    province: '',
+                    city: '',
+					area:'',
+					street:'',
+					address:'',
+					zip:'',
+					person:'',
+					phone:'',
+					yesDefault:false
+                },
+                ruleInline: {
+                    province: [
+                        { required: true, message: '请输入省份', trigger: 'blur' }
+                    ],
+                    city: [
+                        { required: true, message: '请输入城市', trigger: 'blur' },
+                    ],
+					 area: [
+					    { required: true, message: '请输入区', trigger: 'blur' }
+					],
+					 street: [
+					    { required: true, message: '请输入街道', trigger: 'blur' }
+					],
+					 person: [
+					    { required: true, message: '请填写收货人姓名', trigger: 'blur' }
+					],
+					 phone: [
+					    { required: true, message: '请填写手机号码', trigger: 'blur' }
+					],
+					 address: [
+					    { required: true, message: '详细地址不能为空', trigger: 'blur' }
+					],
+                },
+				columns: [
+                    {
+                        title: '收货人',
+                        key: 'person',
+						align: 'center'
+                    },
+                    {
+                        title: '所在地区',
+                        key: 'pcas',
+						align: 'center'
+                    },
+                    {
+                        title: '详细地址',
+                        key: 'address',
+						align: 'center'
+                    },
+					{
+					    title: '邮编',
+					    key: 'zip',
+						align: 'center'
+					},
+					{
+					    title: '电话/手机',
+					    key: 'phone',
+						align: 'center'
+					},
+					{
+					    title: '操作',
+					    key: 'action',
+						align: 'center'
+					},
+					{
+					    title: '默认设置',
+					    key: 'yesDefault',
+						align: 'center'
+					}
+                ],
+                addressData: [],
+			},
+			computed: {
+				menuitemClasses: function () {
+					return [
+						'menu-item',
+						this.isCollapsed ? 'collapsed-menu' : ''
+					]
+				}
+			},
+			methods:{
+				onSelectMenu:function(name){
+					this.menuName = name
+				},
+				handleSubmit(name) {
+					this.$refs[name].validate((valid) => {
+						if (valid) {
+							//this.$Message.success('Success!');
+							this.memberAddress.memberId = this.member.id
+							this.memberAddress.pcas = this.memberAddress.province+" "+
+								this.memberAddress.city+" "+this.memberAddress.area+" "+
+								this.memberAddress.street
+							GO8.MEMBER_ADDRESS.addAddress(this.memberAddress)
+						} else {
+							this.$Message.error('表单填写不完整!');
+						}
+					})
+				}
+			},
+			created:function(){
+				this.addressData = GO8.MEMBER_ADDRESS.getAddressByMemberId(this.member.id)
+			}
+		})
+		//api
+		var GO8 = GO8 || {}
+		GO8.MEMBER_ADDRESS = GO8.MEMBER_ADDRESS || {
+			getAddressByMemberId:function(mid){
+				jQuery.ajax({
+					url:GO8.DN.ROOT+"address",
+					type:'get',
+					data:{'memberId':mid},
+					dataType:'json',
+					success:function(res){
+						if(res.status.code == 2000 && res.data){
+							return res.data
+						}else{
+							return null
+						}
+					}
+				})
+			},
+			addAddress:function(memberAddress){
+				jQuery.ajax({
+					url:GO8.DN.ROOT+"address/add",
+					type:'post',
+					data:{'memberAddress':memberAddress},
+					dataType:'json',
+					success:function(res){
+						if(res.status.code == 2000 && res.data){
+							return res.data
+						}else{
+							return null
+						}
+					}
+				})
+			}
+		}
+    </script>
+	<style scoped>
+	.layout{
+	    border: 1px solid #d7dde4;
+	    background: #f5f7f9;
+	    position: relative;
+	    border-radius: 4px;
+	    overflow: hidden;
+	}
+	.layout-header-bar{
+	    background: #fff;
+	    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+	}
+	.menu-item span{
+	    display: inline-block;
+	    overflow: hidden;
+	    width: 69px;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    vertical-align: bottom;
+	    transition: width .2s ease .2s;
+	}
+	.menu-item i{
+	    transform: translateX(0px);
+	    transition: font-size .2s ease, transform .2s ease;
+	    vertical-align: middle;
+	    font-size: 16px;
+	}
+	.collapsed-menu span{
+	    width: 0px;
+	    transition: width .2s ease;
+	}
+	.collapsed-menu i{
+	    transform: translateX(5px);
+	    transition: font-size .2s ease .2s, transform .2s ease .2s;
+	    vertical-align: middle;
+	    font-size: 22px;
+	}
+	.user-icon[data-v-4ce50e49]{
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	color:rgba(255,255,255,.7);
+	}
+	</style>
+</body>
+
+</html>

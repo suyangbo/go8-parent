@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>go8商城</title>
+    <link rel="stylesheet" href="/style/style.css">
+	<style>
+		.address-check{
+		margin: 15px 0;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		}
+		.address-check-name{
+		width: 120px;
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		background-color: #ccc;
+		}
+		.address-check-name span {
+		width: 120px;
+		height: 36px;
+		font-size: 14px;
+		line-height: 36px;
+		text-align: center;
+		color: #fff;
+		background-color: #f90013;
+		}
+		.address-detail {
+		padding-left: 15px;
+		font-size: 14px;
+		color: #999;
+		}
+	</style>
+</head>
+
+<body>
+    <!-- 顶部栏目 -->
+    <div id="header" th:insert="header :: header"></div>
+    <div class="wrap">
+		<div class="container">
+			<div id="order">
+				<div style="background:#eee;padding: 20px">
+					<Card :bordered="false">
+						<p slot="title">收货信息</p>
+						<div class="address-check">
+							<div class="address-check-name">
+								<span>
+									<Icon type="ios-checkbox-outline"></Icon>
+									 <template v-if="selectedAddressIndex===''">未选择</template>
+									 <template v-else>{{selectedAddressText.split(' ')[0]}}</template>
+								</span>
+							</div> 
+							<div class="address-detail">
+								<p v-if="selectedAddressIndex===''">请选择地址</p>
+								<p v-else>{{selectedAddressText}}</p>
+							</div>
+						</div>
+						<Collapse>
+							<Panel name="1">
+								选择收货地址
+								<p slot="content">
+									<radio-group @on-change="onAddressChange" v-model="selectedAddressIndex" vertical>
+										<Radio v-for="(addr,index) in addressList" 
+										:label="index">
+											<Icon type="social-apple"></Icon>
+											<span>{{addr.person+' '+addr.pcas+' '+addr.address+' '+addr.phone+' '+addr.zip}}</span>
+										</Radio>
+									</radio-group>
+								</p>
+							</Panel>
+						</Collapse>
+						<div style="margin: 20px 0"><i-button type="success" @click="show = true">使用新地址</i-button></div>
+					</Card>
+				</div>
+				<div style="background:#eee;padding: 20px">
+					<Card :bordered="false">
+						<p slot="title">商品列表</p>
+						<i-table @on-selection-change="onSelectChange" :columns="columns" :data="cartData" :no-data-text="tableTip"></i-table>
+					</Card>
+				</div>
+				<div style="background:#eee;padding: 10px">
+					<Card :bordered="false">
+						<p slot="title">备注</p>
+						<i-input v-model="remark" placeholder="输入备注信息" />
+					</Card>
+				</div>
+				<div style="margin:10px;display: flex;justify-content: flex-end;">
+					<div style="font-size: 18px;font-weight: bolder;color: #495060;">
+						<p>应付金额：￥ <span>{{totalPrice}}</span></p>
+						<div style="margin:15px;display: flex;justify-content: flex-end;">
+							<i-button type="error" @click="submitOrder">提 交 订 单</i-button>
+						</div>
+					</div>
+				</div>
+				<Modal v-model="show" width="600px">
+			        <p slot="header">
+			            <Icon type="ios-add-circle"></Icon>
+			            <span>新的地址</span>
+			        </p>
+			        <div>
+			            <i-form ref="memberAddress" :model="memberAddress" :rules="ruleInline" inline>
+							<form-item label="省" prop="province">
+								<i-input type="text" v-model="memberAddress.province" placeholder="省份">
+								</i-input>
+							</form-item>
+							<form-item label="市" prop="city">
+								<i-input type="text" v-model="memberAddress.city" placeholder="城市">
+								</i-input>
+							</form-item>
+							<form-item label="区" prop="area">
+								<i-input type="text" v-model="memberAddress.area" placeholder="区">
+								</i-input>
+							</form-item>
+						
+							<form-item label="街道" prop="street">
+								<i-input type="text" v-model="memberAddress.street" placeholder="街道">
+								</i-input>
+							</form-item>
+							<form-item label="详细地址" prop="address">
+								<i-input style="width:500px" type="text" v-model="memberAddress.address" placeholder="详细地址"></i-input>
+							</form-item>
+							<form-item label="邮政编码" prop="zip">
+								<i-input type="text" v-model="memberAddress.zip" placeholder="邮政编码">
+								</i-input>
+							</form-item>
+							<form-item label="收货人姓名" prop="person">
+								<i-input type="text" v-model="memberAddress.person" placeholder="收货人姓名">
+								</i-input>
+							</form-item>
+							<form-item label="手机号码" prop="phone">
+								<i-input type="text" v-model="memberAddress.phone" placeholder="手机号码">
+								</i-input>
+							</form-item>
+							<form-item label="" prop="yesDefault">
+								<Checkbox v-model="memberAddress.yesDefault">设置为默认收货地址</Checkbox>
+							</form-item>
+							<br/>
+							<form-item>
+								<i-button type="primary" @click="submitNewAddress('memberAddress')">保 存</i-button>
+							</form-item>
+						</i-form>
+			        </div>
+			        <div slot="footer">
+			            <!-- <i-button type="error" size="large"  @click="submitNewAddress('memberAddress')">保  存</i-button> -->
+			        </div>
+			    </Modal>
+			</div>
+		</div>
+		
+    </div>
+    <div id="footer" th:insert="footer :: copy"></div>
+    <script th:inline="javascript">
+    	var g_memberAddress = []
+    	if(vueUser.user.userName){
+        	jQuery.ajax({
+    			url:GO8.DN.ROOT+"address",
+    			type:'get',
+    			data:{'memberId':vueUser.user.id},
+    			dataType:'json',
+    			async: true,
+    			success:function(res){
+    				if(res.status.code == 2000 && res.data){
+    					console.log("get member address success")
+    					//g_memberAddress = res.data
+    					for(let i=0;i<res.data.length;i++){
+    						g_memberAddress.push(res.data[i])
+    						if(res.data[i].yesDefault){
+    							vueOrder.selectedAddressIndex = i
+    							let addr = res.data[i]
+    							vueOrder.selectedAddressText = addr.person+' '+addr.pcas+' '+addr.address+' '+addr.phone+' '+addr.zip
+    						}
+    					}
+    				}
+    			}
+    		})
+    	}
+        console.log(g_memberAddress)
+        
+		var vueOrder = new Vue({
+        el: '#order',
+        data: {
+        	show:false,
+            columns: [
+				{
+					type: 'selection',
+					width: 60,
+					align: 'center'
+				},
+				{
+					title: '图片',
+					key: 'image',
+					align: 'center',
+					render: (h, params) => {
+						return h('img', {attrs: {src: params.row.image}, style: {width: '50px', height: '50px'}})
+					}
+				},
+				{
+					title: '名称',
+					key: 'name',
+					align: 'center'
+				},
+				{
+					title: '价格',
+					key: 'price',
+					align: 'center',
+					render: (h,params) => {
+						return  h('span',params.row.price/100)
+					}
+				},
+				{
+					title: '数量',
+					key: 'number',
+					align: 'center'
+				}
+			],
+			cartData: [],
+			selectedCartData:[],
+			tableTip:'您的购物车没有商品，请先添加商品到购物车再下订单',
+			selectedAddressIndex:'',
+			selectedAddressText:'',
+			addressList:[],
+			remark:'',
+			totalPrice:0,
+			member: /*[[${member}]]*/ {},
+			
+			memberAddress: {
+				memberid:0,
+                province: '',
+                city: '',
+				area:'',
+				street:'',
+				address:'',
+				zip:'',
+				person:'',
+				phone:'',
+				yesDefault:false
+            },
+            ruleInline: {
+                province: [
+                    { required: true, message: '请输入省份', trigger: 'blur' }
+                ],
+                city: [
+                    { required: true, message: '请输入城市', trigger: 'blur' },
+                ],
+				 area: [
+				    { required: true, message: '请输入区', trigger: 'blur' }
+				],
+				 street: [
+				    { required: true, message: '请输入街道', trigger: 'blur' }
+				],
+				 person: [
+				    { required: true, message: '请填写收货人姓名', trigger: 'blur' }
+				],
+				 phone: [
+				    { required: true, message: '请填写手机号码', trigger: 'blur' }
+				],
+				 address: [
+				    { required: true, message: '详细地址不能为空', trigger: 'blur' }
+				],
+            },
+        },
+        methods: {
+			//选择改变,计算新的订单价格
+			onSelectChange:function(selections){
+				console.log(selections)
+				//返回是一个所有被选择对象的数组
+				let total = 0
+				for(let index in selections){
+					total += selections[index].price*selections[index].number
+				}
+				this.totalPrice = total/100
+				this.selectedCartData=selections
+			},
+			onAddressChange:function(index){
+				console.log(index)
+				let addr = this.addressList[index]
+				this.selectedAddressText = addr.person+' '+addr.pcas+' '+addr.address+' '+addr.phone+' '+addr.zip
+			},
+			submitNewAddress(name) {
+				this.$refs[name].validate((valid) => {
+					if (valid) {
+						this.memberAddress.memberid = this.member.id
+						this.memberAddress.pcas = this.memberAddress.province+" "+
+							this.memberAddress.city+" "+this.memberAddress.area+" "+
+							this.memberAddress.street
+							jQuery.ajax({
+								url:GO8.DN.ROOT+"address/add",
+								type:'post',
+								data:vueOrder.memberAddress,
+								dataType:'json',
+								success:function(res){
+									if(res.status.code == 2000 && res.data){
+										vueOrder.show = false
+										vueOrder.addressList.push(res.data)
+										let addr = res.data
+										vueOrder.selectedAddressIndex = vueOrder.addressList.length-1
+										vueOrder.selectedAddressText = addr.person+' '+addr.pcas+' '+addr.address+' '+addr.phone+' '+addr.zip
+									}else{
+										vueOrder.$Message.error('新增地址失败!');
+									}
+								}
+							})
+					} else {
+						this.$Message.error('表单填写不完整!');
+					}
+				})
+			},
+			//提交订单
+			submitOrder:function(){
+				if(this.selectedCartData.length==0){
+					this.$Message.error('您没有选择任何商品');
+					return
+				}
+				//判断地址
+				if(this.selectedAddressIndex===''){
+					this.$Message.error('您没有选择送货地址');
+					return
+				}
+				//提交订单
+				let order = {}
+				order.memberId = this.member.id
+				order.status = 1
+				order.ptotal = this.totalPrice
+				order.fee = 0
+				order.amount=0
+				order.reduceMoney =0
+				order.finalPayMoney=this.totalPrice
+				order.score=0
+				order.remark = this.remark
+				
+				let details = []
+				for(let i=0;i<this.selectedCartData.length;i++){
+					let detail = {}
+					detail.productId= this.selectedCartData[i].id
+					detail.image= this.selectedCartData[i].image
+					detail.productTitle= this.selectedCartData[i].name
+					detail.price= this.selectedCartData[i].price/100
+					detail.number= this.selectedCartData[i].number
+					detail.reduceType= '无优惠'
+					detail.redduceMoney=0
+					detail.shipType='普通配送快递 免邮'
+					detail.shipMoney=0
+					detail.shipInsurance=0
+					detail.score = 0
+					detail.remark=''
+					details.push(detail)
+				}
+				order.details = details
+				
+				let ship = {}
+				let seship = this.addressList[this.selectedAddressIndex]
+				ship.shipName=seship.person
+				ship.shipAddress=seship.address
+				ship.province=seship.province
+				ship.city=seship.city
+				ship.area=seship.area
+				ship.street=seship.street
+				ship.phone=seship.phone
+				ship.zip=seship.zip
+				ship.remark = ''
+				order.ship=ship
+				
+				jQuery.ajax({
+					url:GO8.DN.ROOT+"order/add",
+					type:'post',
+					data: JSON.stringify(order),
+					dataType:'json',
+					contentType: 'application/json;charset=utf-8',
+					success:function(res){
+						if(res.status.code == 2000 && res.data){
+							if(Cookies.get(GO8.TOKEN_KEY))
+								window.location.href = GO8.DN.PAY+"pay.html?orderId="+res.data+"&token="+Cookies.get(GO8.TOKEN_KEY)
+							else{
+								window.location.href = GO8.DN.PAY+"pay.html?orderId="+res.data
+							}
+						}else{
+							vueOrder.$Message.error(res.status.message);
+						}
+					}
+				})
+			}
+        },
+		created:function(){
+			//load cart data
+			let data = Cookies.get(GO8.CART_KEY)
+    		if(data){
+    			this.cartData = JSON.parse(data)
+    		}
+			//默认全选,并计算总价
+			let total = 0
+			for(let i=0; i<this.cartData.length;i++){
+				this.cartData[i]._checked=true
+				total += this.cartData[i].price*this.cartData[i].number
+				this.selectedCartData.push(this.cartData[i])
+			}
+			this.totalPrice = total/100
+			
+			//set address
+			this.addressList = g_memberAddress
+		}
+    })
+    </script>
+</body>
+
+</html>

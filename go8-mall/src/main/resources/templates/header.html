@@ -1,0 +1,129 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <body>
+      <div class="wrap" th:fragment="header">
+			<div class="logo">
+				<h1><a style="color:#fff" href="javascript:window.location.href=GO8.DN.INDEX">go8商城</a></h1>
+			</div>
+			<div class="fr">
+				<div class="user">
+					<a href="#">您好，{{user.userName}}&nbsp;&nbsp;欢迎来go8</a>
+					<a href="javascript:(void)" @click="login" v-show="!user.userName">请登录</a>
+					<a href="javascript:(void)" @click="register" v-show="!user.userName">免费注册</a>
+					<a href="javascript:(void)" @click="logout" v-show="user.userName">退出系统</a>
+					<a href="javascript:toCart()">购物车</a>
+					<a href="#">收藏夹</a>
+				</div>
+			</div>
+			<link rel="stylesheet" href="/style/iview.css">
+			<script src="/script/jquery.min.js"></script>
+			<script src="/script/vue.min.js"></script>
+	  		<script src="/script/iview.min.js"></script>
+	  		<script src="/script/js.cookie.min.js"></script>
+	  		<script src="/script/global.js"></script>
+	  		<script>
+		  		function toCart(){
+		  			if(Cookies.get(GO8.TOKEN_KEY))
+						window.location.href = GO8.DN.CART+"cart.html?token="+Cookies.get(GO8.TOKEN_KEY)
+					else
+						window.location.href = GO8.DN.CART+"cart.html"
+				};
+				
+		  		var vueUser = new Vue({
+					el:'.user',
+					data:{
+						user:{userName:'',id:0},
+					},
+					methods: {
+						login(){
+							window.location.href = GO8.DN.ROOT+"login.html?returnUrl="+window.location.href
+						},
+						register(){
+							window.location.href = GO8.DN.ROOT+"register.html?returnUrl="+window.location.href
+						},
+						logout(){
+					    	let token = Cookies.get('token')
+					    	jQuery.ajax({
+								url:GO8.DN.ROOT+"logout",
+								type:'post',
+								data:{'token':token},
+								dataType:'json',
+								success:function(res){
+									if(res.status.code == 2000){
+										//remove cookie
+										Cookies.remove('token')
+										vueUser.user.userName = ''
+										vueUser.user.id = 0
+										window.location.href = GO8.DN.ROOT+"login.html"
+									}
+								}
+							})
+					    }
+					},
+					mounted:function() {
+						
+					}
+				})
+		  		
+		  		if(Cookies.get('token')){
+					jQuery.ajax({
+						url:GO8.DN.ROOT+"info",
+						type:'get',
+						data:{'token':Cookies.get('token')},
+						dataType:'json',
+						async: false,
+						success:function(res){
+							vueUser.user.userName=res.data.userName
+							vueUser.user.id=res.data.id
+						}
+					})
+				}
+				
+	  		</script>
+		</div>
+		<div class="searchContainer" th:fragment="search">
+			<div class="search">
+		      <i-input v-model="searchData" size="large" placeholder="输入你想查找的商品" class="searchdata">
+		        <i-button slot="append" icon="ios-search" @click="search"></i-button>
+		      </i-input>
+		      <Tag v-for="(item, index) in promotionTags" :key="index" closable  @on-close="closeTags(index)"><span @click="selectTags(index)">{{item}}</span></Tag>
+   			</div>
+			<style>
+				.search {
+				  padding-top: 15px;
+				  margin: 0px auto;
+				  margin-bottom: 15px;
+				  width: 460px;
+				}
+				.search searchdata{
+				  margin: 5px 0px;
+				}
+			</style>
+	  		<script>
+		  		var vueSearch = new Vue({
+					el:'.search',
+					data:{
+						searchData: '',
+					    promotionTags: ['手机', '笔记本', '小米', '华硕']
+					},
+					methods: {
+					    closeTags (index) {
+					      this.promotionTags.splice(index, 1);
+					    },
+					    selectTags (index) {
+					      this.searchData = this.promotionTags[index];
+					    },
+					    search () {
+					    	window.location.href = GO8.DN.ROOT+"list.html?q="+this.searchData
+					    }
+					    
+					},
+					mounted:function() {
+						
+					}
+				})
+	  		</script>
+		</div>
+  </body>
+  
+</html>

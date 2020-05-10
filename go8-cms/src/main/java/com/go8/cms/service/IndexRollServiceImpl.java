@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class IndexRollServiceImpl implements IndexRollService{
+public class IndexRollServiceImpl implements IndexRollService {
     @Autowired
     private IndexRollMapper indexRollMapper;
 

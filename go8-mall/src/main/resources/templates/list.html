@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+	<title>shop</title>
+	<link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+	<!-- 顶部栏目 -->
+	<div id="header" th:insert="header :: header"></div>
+	<!-- 搜索 -->
+	<div id="search" th:replace="header :: search"></div>
+	
+	<div class="wrap">
+		<!-- 筛选 -->
+		<div class="filterBox">
+			<div class="filter" v-show="show">
+				<dl>
+					<dt>品牌：</dt>
+					<dd v-for="(item,index) in pin" 
+						v-text="item.name"
+						:class="{'active': index==spin}"
+						@click="(spin=index)"></dd>
+				</dl>
+				<dl>
+					<dt>价格：</dt>
+					<dd v-for="(item,index) in price" 
+						v-text="item.name"
+						:class="{'active': index==sprice}"
+						@click="(sprice=index)"></dd>
+				</dl>
+				<dl>
+					<dt>包装：</dt>
+					<dd v-for="(item,index) in pack" 
+						v-text="item.name"
+						:class="{'active': index==spack}"
+						@click="(spack=index)"></dd>
+				</dl>
+			</div>
+			<div class="more" @click="moreOrless">{{tabText}}</div>
+		</div>
+		<!-- 列表 -->
+		<div class="gList">
+			<div class="gHead">
+				<ul>
+					<li class="active"><a href="#">综合排序</a></li>
+					<li><a href="#">销量排序</a></li>
+					<li><a href="#">价格低到高</a></li>
+					<li><a href="#">价格高到低</a></li>
+				</ul>
+			</div>
+			<ul class="list">
+				<li th:each="product : ${sd.data}">
+					<div class="gPic">
+						<img th:src="@{${product.picture}}" alt="">
+					</div>
+					<h5 th:utext="${product.title}" class="title"></h5>
+					<div class="switch">
+						<p th:text="'￥'+${product.price/100}" class="price" style="color:red;"></p>
+						<p class="btns">
+							<a class="goDetail" th:href="@{/product.html(id=${product.id})}">查看详情</a>
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 分页 -->
+		<div id="pagination" style="text-align: center; margin: 30px 0">
+			<Page :total="total" :page-size="60" @on-change="onPageChange" />
+		</div>
+		<!-- 服务 -->
+		<div class="service">
+			<div class="sbox">
+				<div>
+					<img src="./images/service1.png" alt="">
+					<h6>在线客服</h6>
+					<p>周一至周日 9:00-18:00</p>
+				</div>
+			</div>
+			<div class="sbox">
+				<div>
+				<img src="./images/service2.png" alt="">
+				<h6>7天无理由退货</h6>
+				<p>7天无理由退货 请放心购买</p>
+				</div>
+			</div>
+			<div class="sbox">
+				<div>
+				<img src="./images/service3.png" alt="">
+				<h6>15免费换货</h6>
+				<p>15天内如遇质量问题 免费换货</p>
+				</div>
+			</div>
+			<div class="sbox">
+				<div>
+				<img src="./images/service4.png" alt="">
+				<h6>满150元免运费</h6>
+				<p>全场使用速度最快的快递</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 -->
+	<div id="footer" th:insert="footer :: copy"></div>
+    <script th:inline="javascript">
+    var vueFilter = new Vue({
+        el: ".filterBox",
+        data: {
+        	show:true,
+        	tabText:'收起选项',
+        	spin: 0,
+        	sprice: 0,
+        	spack: 0,
+            pin: [{
+            	name: '苹果'
+            },{
+            	name: '小米'
+            },{
+            	name: '魅族'
+            },{
+            	name: '华为'
+            },{
+            	name: 'vivo'
+            }],
+            price: [{
+            	name: '1000以下'
+            },{
+            	name: '2000-5000'
+            },{
+            	name: '5000-10000'
+            },{
+            	name: '10000以上'
+            }],
+            pack: [{
+            	name: '精品包装'
+            },{
+            	name: '高端包装'
+            }]
+        },
+        computed: {
+            
+        },
+        methods: {
+            moreOrless(){
+            	this.show ? this.show=false : this.show = true
+            	this.show ? this.tabText='收起选项' : this.tabText = '展开选项'
+            }
+        }
+    })
+    
+    var vuePage = new Vue({
+        el: "#pagination",
+        data: {
+        	total: /*[[${sd.total}]]*/ 0
+        },
+        computed: {
+            
+        },
+        methods: {
+        	onPageChange(page){
+        		window.location.href = GO8.DN.ROOT+"list.html?q="+this.searchData+"&page="+page
+        	}
+        }
+    })
+    </script>
+</body>
+</html>

@@ -24,66 +24,66 @@ public class BrandController {
     private BrandService brandService;
 
     @PostMapping("brands")
-    public Object add(@RequestBody Brand brand){
-        logger.debug("params is  brand : {}",brand);
+    public Object add(@RequestBody Brand brand) {
+        logger.debug("params is  brand : {}", brand);
         try {
             brandService.add(brand);
             return ServiceResponse.ok();
         } catch (Exception e) {
-            logger.error(brand+"_"+e.getMessage(),e);
+            logger.error(brand + "_" + e.getMessage(), e);
             return ServiceResponse.error();
         }
     }
 
     @PutMapping("brands/{id}")
-    public Object update(@PathVariable Long id,@RequestBody Brand brand){
+    public Object update(@PathVariable Long id, @RequestBody Brand brand) {
         try {
             brand.setId(id);
             brandService.updateById(brand);
             return ServiceResponse.ok();
         } catch (Exception e) {
-            logger.error(brand+"_"+e.getMessage(),e);
+            logger.error(brand + "_" + e.getMessage(), e);
             return ServiceResponse.error();
         }
     }
 
     @DeleteMapping("brands")
-    public Object deletes(String ids){
-        logger.debug("params is  ids : {}",ids);
+    public Object deletes(String ids) {
+        logger.debug("params is  ids : {}", ids);
         String[] aids = ids.split(",");
-        if(aids==null || aids.length==0){
-            logger.error("bad ids:"+ids);
+        if (aids == null || aids.length == 0) {
+            logger.error("bad ids:" + ids);
             return ServiceResponse.illegalArgs();
         }
         try {
             brandService.deleteByIds(ids);
             return ServiceResponse.ok();
         } catch (Exception e) {
-            logger.error(ids+"_"+e.getMessage(),e);
+            logger.error(ids + "_" + e.getMessage(), e);
             return ServiceResponse.error();
         }
     }
 
     @GetMapping("brands/{id}")
-    public Object getBrandById(@PathVariable Long id){
-        logger.debug("params is id:{}",id);
-        if(id<=0){
-            logger.warn("params of brand is illegal. id : {}",id);
+    public Object getBrandById(@PathVariable Long id) {
+        logger.debug("params is id:{}", id);
+        if (id <= 0) {
+            logger.warn("params of brand is illegal. id : {}", id);
             return ServiceResponse.illegalArgs();
         }
         try {
             Brand brand = brandService.getBrandById(id);
             return ServiceResponse.ok(toBrandVO(brand));
         } catch (Exception e) {
-            logger.error(id+"_"+e.getMessage(),e);
+            logger.error(id + "_" + e.getMessage(), e);
             return ServiceResponse.error();
         }
     }
 
     @GetMapping("brands")
-    public Object getBrandsByCondition(int page, int size, Brand brand){
-        logger.debug("params is page:{},size:{},brand:{}",page,size,brand);
-        if (page<=0 || size<=0){
+    public Object getBrandsByCondition(int page, int size, Brand brand) {
+        logger.debug("params is page:{},size:{},brand:{}", page, size, brand);
+        if (page <= 0 || size <= 0) {
             logger.warn("params of brand is illegal. page : {}, size : {}", page, size);
             return ServiceResponse.illegalArgs();
         }
@@ -91,37 +91,37 @@ public class BrandController {
             MysqlPageWrapper<Brand> condition = new MysqlPageWrapper<>(page, size, brand);
             List<Brand> brands = brandService.getBrandsByCondition(condition);
             List<BrandVO> vos = new ArrayList<>();
-            for (Brand b:brands){
+            for (Brand b : brands) {
                 vos.add(toBrandVO(b));
             }
             //查询总记录数
             Long total = brandService.getCountByCondition(brand);
             Map<String, Object> map = new HashMap<>();
-            map.put("total",total);
-            map.put("rows",vos);
+            map.put("total", total);
+            map.put("rows", vos);
             return ServiceResponse.ok(map);
         } catch (Exception e) {
-            logger.error(brand+"_"+e.getMessage(),e);
+            logger.error(brand + "_" + e.getMessage(), e);
             return ServiceResponse.error();
         }
     }
 
     @GetMapping("brands/select")
-    public Object getBrandsByCid(Long cid){
-        logger.debug("params is  cid : {}",cid);
-        if (cid<=0){
-            logger.warn("params of brand is illegal. cid : {}",cid);
+    public Object getBrandsByCid(Long cid) {
+        logger.debug("params is  cid : {}", cid);
+        if (cid <= 0) {
+            logger.warn("params of brand is illegal. cid : {}", cid);
             return ServiceResponse.illegalArgs();
         }
         try {
             List<Brand> brands = brandService.getBrandsByCid(cid);
             List<BrandSelectVO> vos = new ArrayList<>();
-            for (Brand b:brands){
+            for (Brand b : brands) {
                 vos.add(toSelectVO(b));
             }
             return ServiceResponse.ok(vos);
         } catch (Exception e) {
-            logger.error(cid+"_"+e.getMessage(),e);
+            logger.error(cid + "_" + e.getMessage(), e);
             return ServiceResponse.error();
         }
     }

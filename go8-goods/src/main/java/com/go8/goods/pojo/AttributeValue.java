@@ -9,7 +9,7 @@ public class AttributeValue {
 
     private Long attributeId;
 
-    private Integer showOrder=1;
+    private Integer showOrder = 1;
 
     private Date gmtCreate;
 

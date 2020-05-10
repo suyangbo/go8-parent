@@ -1,0 +1,1040 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+input,
+textarea,
+p,
+th,
+td,
+hr,
+button {
+  margin: 0;
+  padding: 0; }
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500; }
+
+ol,
+ul {
+  list-style: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+img {
+  border: 0; }
+
+img,
+button {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  cursor: pointer; }
+
+del {
+  text-decoration: line-through; }
+
+em {
+  font-style: normal; }
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sup {
+  top: -0.5em; }
+
+sub {
+  bottom: -0.25em; }
+
+ins,
+a {
+  text-decoration: none; }
+
+a:active,
+*:focus {
+  outline: none; }
+
+@charset "UTF-8";
+.clearfix:after {
+  display: block;
+  content: "";
+  clear: both;
+  height: 0;
+  visibility: hidden; }
+
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+html, body {
+  font-family: "PingFang SC","微软雅黑","Microsoft YaHei",Helvetica,"Helvetica Neue",Tahoma,Arial,sans-serif;
+  background-color: #ededed; }
+
+.wrap {
+  width: 1200px;
+  margin: 0 auto; }
+  .wrap:after {
+    display: block;
+    content: "";
+    clear: both;
+    height: 0;
+    visibility: hidden; }
+
+#header {
+  height: 60px;
+  padding: 10px 0;
+  background-color: #000; }
+  #header .logo {
+    float: left;
+    height: 40px; }
+    #header .logo h1 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 40px; }
+  #header .user {
+    float: left;
+    margin-right: 15px; 
+    height: 40px;
+    line-height: 40px}
+    #header .user a {
+      height: 40px;
+      cursor: pointer;
+      color:white;
+      font-size: 14px;
+      padding: 0 10px;
+     } 
+  #header .search {
+    float: left; }
+    #header .search a {
+      display: block;
+      height: 40px;
+      cursor: pointer;
+      background: url(../images/icon-search.png) no-repeat center; }
+
+.nav {
+  padding: 38px 0;
+  overflow: hidden; }
+  .nav li {
+    float: left;
+    padding: 0 28px;
+    border-right: 1px solid #c3c3c3; }
+    .nav li a {
+      display: block;
+      color: #666;
+      font-size: 16px;
+      line-height: 16px;
+      margin: -3px 0; }
+    .nav li:hover a, .nav li.active a {
+      color: #333;
+      font-weight: bold; }
+    .nav li:last-child {
+      border-right: none; }
+    .nav li:first-child {
+      padding-left: 0; }
+
+.filterBox {
+  position: relative;
+  margin-bottom: 30px; }
+  .filterBox .filter {
+    padding: 0 20px;
+    border: 1px solid #d8d8d8;
+    background-color: #fff; }
+    .filterBox .filter dl {
+      padding: 10px 0;
+      overflow: hidden;
+      border-bottom: 1px dashed #eaeaea; }
+      .filterBox .filter dl:last-child {
+        border-bottom: none; }
+      .filterBox .filter dl dt {
+        float: left;
+        color: #333;
+        font-size: 14px;
+        line-height: 40px;
+        padding: 0 20px; }
+      .filterBox .filter dl dd {
+        float: left;
+        color: #999;
+        font-size: 14px;
+        line-height: 40px;
+        margin: 0 30px;
+        cursor: pointer; }
+        .filterBox .filter dl dd:hover, .filterBox .filter dl dd.active {
+          color: #333; }
+  .filterBox .more {
+    width: 200px;
+    height: 30px;
+    color: #666;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #d8d8d8;
+    border-top: none; }
+    .filterBox .more:hover {
+      color: #333; }
+
+.gList {
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  border-bottom: none; }
+  .gList .gHead {
+    padding: 10px;
+    overflow: hidden;
+    border-bottom: 1px solid #d8d8d8; }
+    .gList .gHead ul {
+      float: left;
+      padding: 15px 0;
+      overflow: hidden; }
+      .gList .gHead ul li {
+        float: left;
+        padding: 0 28px;
+        border-right: 1px solid #c3c3c3; }
+        .gList .gHead ul li a {
+          display: block;
+          height: 14px;
+          color: #666;
+          font-size: 14px;
+          line-height: 14px;
+          margin: -2px 0; }
+        .gList .gHead ul li:hover a, .gList .gHead ul li.active a {
+          color: #000; }
+        .gList .gHead ul li:last-child {
+          border-right: none; }
+    .gList .gHead .search {
+      float: right;
+      padding: 7px 0;
+      border: 1px solid #eaeaea; }
+      .gList .gHead .search input {
+        float: left;
+        width: 250px;
+        height: 24px;
+        padding: 4px 15px;
+        border: none; }
+      .gList .gHead .search .btn {
+        float: left;
+        width: 50px;
+        height: 24px;
+        border: none;
+        border-left: 1px solid #d8d8d8;
+        background: transparent url(../images/icon-search.png) no-repeat center; }
+  .gList .list:after {
+    display: block;
+    content: "";
+    clear: both;
+    height: 0;
+    visibility: hidden; }
+  .gList .list li {
+    float: left;
+    width: 25%;
+    padding: 15px;
+    text-align: center;
+    border-right: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8; }
+    .gList .list li:nth-child(4n) {
+      border-right: none; }
+    .gList .list li .gPic {
+      width: 268px;
+      height: 268px;
+      font-size: 0;
+      line-height: 268px; }
+      .gList .list li .gPic img {
+        display: inline-block;
+        max-width: 268px;
+        max-height: 268px;
+        vertical-align: middle; }
+    .gList .list li .title {
+      color: #333;
+      font-size: 16px;
+      line-height: 28px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .gList .list li .info {
+      color: #999;
+      font-size: 14px;
+      line-height: 28px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .gList .list li .switch {
+      position: relative;
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
+      overflow: hidden; }
+      .gList .list li .switch .price {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        color: #333;
+        font-size: 16px;
+        line-height: 40px;
+        transition: transform 600ms; }
+      .gList .list li .switch .btns {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        transition: transform 600ms;
+        transform: translateX(100%); }
+        .gList .list li .switch .btns a {
+          display: inline-block;
+          margin: 0 6px;
+          width: 106px;
+          height: 34px;
+          color: #333;
+          font-size: 16px;
+          line-height: 32px;
+          border-radius: 4px;
+          border: 1px solid #d8d8d8; }
+          .gList .list li .switch .btns a:hover {
+            color: #fff;
+            background-color: #000; }
+    .gList .list li:hover {
+      box-shadow: 0 0 12px rgba(80, 80, 80, 0.2) inset; }
+      .gList .list li:hover .price {
+        transform: translateX(-100%); }
+      .gList .list li:hover .btns {
+        transform: translateX(0); }
+
+.pagination {
+  padding: 30px 0;
+  text-align: center; }
+  .pagination a {
+    display: inline-block;
+    color: #999;
+    font-size: 14px;
+    line-height: 30px;
+    padding: 0 10px; }
+    .pagination a:hover, .pagination a.active, .pagination a.prev, .pagination a.next, .pagination a.go {
+      color: #000; }
+  .pagination input {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: none;
+    color: #000;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center; }
+
+.service {
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  margin-bottom: 30px;
+  padding: 50px 0;
+  overflow: hidden; }
+  .service .sbox {
+    float: left;
+    width: 25%;
+    text-align: center;
+    border-right: 1px solid #d8d8d8; }
+    .service .sbox:last-child {
+      border-right: none; }
+    .service .sbox div {
+      margin: -15px 0; }
+    .service .sbox img {
+      height: 50px;
+      margin-bottom: 10px; }
+    .service .sbox h6 {
+      color: #000;
+      font-size: 16px;
+      line-height: 24px; }
+    .service .sbox p {
+      color: #999;
+      font-size: 14px;
+      line-height: 20px; }
+
+#footer {
+  background-color: #fafafa; }
+  #footer .footTop {
+    padding: 40px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #d8d8d8; }
+    #footer .footTop dl {
+      float: left;
+      margin-right: 80px; }
+      #footer .footTop dl dt {
+        color: #333;
+        font-size: 14px;
+        line-height: 30px;
+        font-weight: bold;
+        margin-bottom: 10px; }
+      #footer .footTop dl dd a {
+        color: #666;
+        font-size: 14px;
+        line-height: 22px; }
+    #footer .footTop .info {
+      float: right;
+      margin-top: 35px; }
+      #footer .footTop .info h6 {
+        color: #333;
+        font-size: 30px;
+        line-height: 40px;
+        font-weight: bold;
+        text-align: right; }
+      #footer .footTop .info p {
+        color: #666;
+        font-size: 12px;
+        line-height: 30px;
+        text-align: right; }
+  #footer .footBtm {
+    padding: 30px 0;
+    text-align: center; }
+    #footer .footBtm p {
+      color: #999;
+      font-size: 12px;
+      line-height: 20px; }
+
+.buy {
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  padding: 30px;
+  margin-bottom: 30px;
+  overflow: hidden; }
+  .buy .swipe {
+    float: left;
+    overflow: hidden; }
+    .buy .swipe .hd {
+      position: relative;
+      float: left;
+      width: 110px; }
+      .buy .swipe .hd li {
+        width: 90px;
+        height: 90px;
+        font-size: 0;
+        line-height: 88px;
+        text-align: center;
+        margin: 10px 10px;
+        cursor: pointer;
+        border: 1px solid #d8d8d8; }
+        .buy .swipe .hd li img {
+          max-width: 90%;
+          max-height: 90%;
+          vertical-align: middle; }
+        .buy .swipe .hd li:hover, .buy .swipe .hd li.on {
+          border-color: #333; }
+      .buy .swipe .hd .prev {
+        display: block;
+        width: 90px;
+        height: 30px;
+        font-size: 0;
+        margin: 0 10px;
+        cursor: pointer;
+        opacity: 0.6;
+        border: 1px solid #666;
+        background: url(../images/arrow-prev.png) no-repeat center; }
+        .buy .swipe .hd .prev:hover {
+          opacity: 1; }
+      .buy .swipe .hd .next {
+        display: block;
+        width: 90px;
+        height: 30px;
+        font-size: 0;
+        margin: 0 10px;
+        cursor: pointer;
+        opacity: 0.6;
+        border: 1px solid #666;
+        background: url(../images/arrow-next.png) no-repeat center; }
+        .buy .swipe .hd .next:hover {
+          opacity: 1; }
+    .buy .swipe .bd {
+      float: left;
+      width: 570px;
+      height: 570px;
+      padding: 10px; }
+      .buy .swipe .bd ul li {
+        width: 550px;
+        height: 550px;
+        font-size: 0;
+        line-height: 550px;
+        text-align: center; }
+        .buy .swipe .bd ul li img {
+          max-width: 100%;
+          max-height: 100%;
+          vertical-align: middle; }
+  .buy .select {
+    float: left;
+    width: 458px;
+    padding-left: 30px; }
+    .buy .select .title {
+      color: #333;
+      font-size: 20px;
+      line-height: 40px;
+      font-weight: bold; }
+    .buy .select .intr {
+      overflow: hidden; }
+      .buy .select .intr span {
+        float: left;
+        width: 280px;
+        color: #999;
+        font-size: 14px;
+        line-height: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+      .buy .select .intr b {
+        float: right;
+        color: #e42121;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 30px; }
+    .buy .select .opt {
+      margin: 15px 0;
+      padding: 10px 0;
+      border-top: 1px solid #d8d8d8;
+      border-bottom: 1px solid #d8d8d8; }
+      .buy .select .opt label {
+        float: left;
+        width: 64px;
+        height: 64px;
+        color: #666;
+        font-size: 16px;
+        line-height: 64px; }
+      .buy .select .opt .setColor {
+        margin-bottom: 20px;
+        overflow: hidden; }
+        .buy .select .opt .setColor ol {
+          float: left;
+          height: 64px;
+          padding: 15px 0;
+          overflow: hidden; }
+          .buy .select .opt .setColor ol li {
+            float: left;
+            width: 34px;
+            height: 34px;
+            margin-left: 15px;
+            border-radius: 50%;
+            padding: 3px;
+            cursor: pointer;
+            border: 2px solid #eaeaea; }
+            .buy .select .opt .setColor ol li span {
+              display: block;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%; }
+            .buy .select .opt .setColor ol li:hover, .buy .select .opt .setColor ol li.active {
+              border: 2px solid #ff0036; }
+      .buy .select .opt .setSize {
+        margin-bottom: 20px;
+        overflow: hidden; }
+        .buy .select .opt .setSize ol {
+          float: left;
+          /* height: 64px; */
+          height: auto;
+          overflow: hidden; }
+          .buy .select .opt .setSize ol li {
+            float: left;
+            /* width: 170px; */
+            /* height: 64px; */
+            margin-left: 15px;
+            padding: 10px 0;
+            cursor: pointer;
+            border: 1px solid #eaeaea; }
+            .buy .select .opt .setSize ol li p {
+              /* height: 22px; */
+              color: #333;
+              font-size: 12px;
+              /* line-height: 22px; */
+              text-align: center; }
+            .buy .select .opt .setSize ol li span {
+              display: block;
+              height: 22px;
+              color: #999;
+              font-size: 14px;
+              line-height: 22px;
+              text-align: center; }
+            .buy .select .opt .setSize ol li:hover, .buy .select .opt .setSize ol li.active {
+              border: 2px solid #ff0036; }
+      .buy .select .opt .setNum {
+        overflow: hidden; }
+        .buy .select .opt .setNum .nbox {
+          height: 64px;
+          overflow: hidden;
+          padding: 20px 0; }
+          .buy .select .opt .setNum .nbox b {
+            float: left;
+            width: 24px;
+            height: 24px;
+            margin-left: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid #999; }
+          .buy .select .opt .setNum .nbox .minus {
+            background: url(../images/minus.png) no-repeat center; }
+          .buy .select .opt .setNum .nbox .plus {
+            background: #999 url(../images/plus.png) no-repeat center; }
+          .buy .select .opt .setNum .nbox .ret {
+            float: left;
+            width: 24px;
+            height: 24px;
+            border: none;
+            line-height: 24px;
+            text-align: center;
+            margin-left: 15px; }
+    .buy .select .btns {
+      padding: 15px 0;
+      overflow: hidden; }
+      .buy .select .btns a {
+        float: left;
+        width: 140px;
+        height: 54px;
+        color: #666;
+        font-size: 16px;
+        line-height: 52px;
+        text-align: center;
+        margin-right: 15px;
+        border: 1px solid #999999; }
+        .buy .select .btns a:hover {
+          color: #fff;
+          background-color: #999; }
+
+.detail {
+  margin-bottom: 50px; }
+  .detail .head {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
+    margin-bottom: 10px; }
+  .detail .cont {
+    border: 1px solid #d8d8d8;
+    background-color: #fff; }
+    .detail .cont img {
+      display: block;
+      width: 100%; }
+
+.myCart {
+  color: #333;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 30px; }
+  .myCart span {
+    float: right;
+    color: #666;
+    font-size: 12px; }
+
+.cart .head {
+  height: 50px;
+  overflow: hidden;
+  background-color: #333; }
+  .cart .head span {
+    float: left;
+    color: #fff;
+    font-size: 14px;
+    line-height: 50px;
+    text-align: center; }
+  .cart .head .ch1 {
+    width: 600px;
+    padding-left: 30px;
+    text-align: left; }
+  .cart .head .ch2 {
+    width: 160px; }
+  .cart .head .ch3 {
+    width: 160px; }
+  .cart .head .ch4 {
+    width: 160px; }
+  .cart .head .ch5 {
+    width: 120px; }
+
+.cart .list {
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  border-top: 0;
+  padding: 0 30px;
+  margin-bottom: 40px; }
+  .cart .list li {
+    padding: 30px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #eaeaea; }
+    .cart .list li:last-child {
+      border-bottom: 0; }
+    .cart .list li .checkBtn {
+      display: block;
+      float: left;
+      width: 24px;
+      height: 24px;
+      margin: 42px 0;
+      cursor: pointer;
+      background: url(../images/check.png) no-repeat center; }
+      .cart .list li .checkBtn:hover, .cart .list li .checkBtn.active {
+        background: url(../images/checked.png) no-repeat center; }
+    .cart .list li img {
+      float: left;
+      width: 108px;
+      height: 108px;
+      margin: 0 30px;
+      border: 1px solid #d8d8d8; }
+    .cart .list li .info {
+      position: relative;
+      float: left;
+      width: 378px;
+      height: 108px; }
+      .cart .list li .info div {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%); }
+        .cart .list li .info div h6 {
+          color: #333;
+          font-size: 16px;
+          line-height: 24px; }
+        .cart .list li .info div p {
+          color: #666;
+          font-size: 14px;
+          line-height: 20px; }
+    .cart .list li .price {
+      float: left;
+      width: 160px;
+      height: 108px; }
+      .cart .list li .price p {
+        color: #333;
+        font-size: 16px;
+        line-height: 108px;
+        text-align: center; }
+    .cart .list li .cnbox {
+      float: left;
+      width: 160px;
+      height: 108px;
+      padding: 22px 0; }
+    .cart .list li .nbox {
+      height: 64px;
+      overflow: hidden;
+      padding: 20px 0;
+      margin-left: 12px; }
+      .cart .list li .nbox b {
+        float: left;
+        width: 24px;
+        height: 24px;
+        margin-left: 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 1px solid #999; }
+      .cart .list li .nbox .minus {
+        background: url(../images/minus.png) no-repeat center; }
+      .cart .list li .nbox .plus {
+        background: #999 url(../images/plus.png) no-repeat center; }
+      .cart .list li .nbox .ret {
+        float: left;
+        width: 24px;
+        height: 24px;
+        border: none;
+        line-height: 24px;
+        text-align: center;
+        margin-left: 15px; }
+    .cart .list li .copt {
+      float: left;
+      width: 88px;
+      height: 108px;
+      padding: 42px 0; }
+      .cart .list li .copt b {
+        display: block;
+        float: right;
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+        cursor: pointer;
+        margin-right: 18px;
+        border-radius: 50%;
+        border: 1px solid #999;
+        background: #f3f3f3 url(../images/del.png) no-repeat center; }
+        .cart .list li .copt b:hover {
+          background: #999 url(../images/del-on.png) no-repeat center; }
+
+.cart .total {
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  height: 60px;
+  padding-left: 30px;
+  margin-bottom: 130px; }
+  .cart .total .checkBtn {
+    display: block;
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin: 17px 0;
+    cursor: pointer;
+    background: url(../images/check.png) no-repeat center; }
+    .cart .total .checkBtn:hover, .cart .total .checkBtn.active {
+      background: url(../images/checked.png) no-repeat center; }
+  .cart .total .selectAll {
+    float: left;
+    height: 58px;
+    color: #333;
+    font-size: 14px;
+    line-height: 58px;
+    padding: 0 6px;
+    margin-left: 24px;
+    cursor: pointer; }
+  .cart .total .del {
+    float: left;
+    height: 12px;
+    color: #999;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 0 10px;
+    margin-top: 25px;
+    cursor: pointer;
+    border-left: 1px solid #d8d8d8; }
+  .cart .total .totalNum {
+    float: left;
+    height: 58px;
+    padding: 14px;
+    color: #666;
+    font-size: 16px;
+    line-height: 30px; }
+    .cart .total .totalNum b {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 0 5px;
+      line-height: 24px; }
+  .cart .total .totalMoney {
+    float: left;
+    height: 58px;
+    padding: 14px;
+    color: #666;
+    font-size: 16px;
+    line-height: 30px; }
+    .cart .total .totalMoney b {
+      color: #e42121;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 0 5px;
+      line-height: 24px; }
+  .cart .total .goCheck {
+    float: left;
+    width: 160px;
+    height: 58px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 58px;
+    margin-left: 15px;
+    text-align: center;
+    background-color: #666; }
+
+.indexbox {
+  position: relative;
+  width: 1200px;
+  height: 500px;
+  margin-bottom: 30px; }
+  .indexbox .banner {
+    width: 1200px;
+    height: 500px; }
+    .indexbox .banner .box, .indexbox .banner img {
+      display: block;
+      width: 1200px;
+      height: 500px; }
+    .indexbox .banner .hd {
+      position: absolute;
+      right: 20px;
+      bottom: 15px;
+      height: 20px; }
+      .indexbox .banner .hd ul {
+        float: right; }
+        .indexbox .banner .hd ul li {
+          float: left;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          font-size: 0;
+          margin: 0 8px;
+          border: 1px solid #666; }
+          .indexbox .banner .hd ul li.on {
+            background-color: #333; }
+  .indexbox .cate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 294px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9; }
+    .indexbox .cate .cate1 {
+      width: 294px;
+      height: 500px;
+      padding: 25px 0; }
+      .indexbox .cate .cate1 .cate1-li {
+        width: 294px;
+        height: 45px;
+        padding: 0 30px;
+        cursor: pointer; }
+        .indexbox .cate .cate1 .cate1-li .cate1-t {
+          display: block;
+          color: #fff;
+          font-size: 14px;
+          line-height: 45px;
+          background: url(../images/arrow.png) no-repeat right center; }
+        .indexbox .cate .cate1 .cate1-li .cate2 {
+          display: none;
+          position: absolute;
+          top: 0;
+          left: 100%;
+          bottom: 0;
+          padding: 10px 0;
+          background-color: #fff;
+          box-shadow: 3px 0 3px rgba(0, 0, 0, 0.2); }
+          .indexbox .cate .cate1 .cate1-li .cate2 .cate2-li {
+            width: 300px;
+            height: 80px;
+            padding: 10px 20px;
+            overflow: hidden; }
+            .indexbox .cate .cate1 .cate1-li .cate2 .cate2-li img {
+              float: left;
+              width: 60px;
+              height: 60px; }
+            .indexbox .cate .cate1 .cate1-li .cate2 .cate2-li .cate2-t {
+              height: 30px;
+              color: #333;
+              font-size: 14px;
+              line-height: 30px;
+              overflow: hidden;
+              margin: 15px 0;
+              padding-left: 20px; }
+              .indexbox .cate .cate1 .cate1-li .cate2 .cate2-li .cate2-t:hover {
+                color: #000; }
+        .indexbox .cate .cate1 .cate1-li:hover {
+          background-color: #333; }
+          .indexbox .cate .cate1 .cate1-li:hover .cate2 {
+            display: block; }
+
+.adbox {
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  margin-bottom: 20px;
+  overflow: hidden; }
+  .adbox .sbox {
+    float: left;
+    width: 25%;
+    text-align: center;
+    border-right: 1px solid #d8d8d8; }
+    .adbox .sbox:last-child {
+      border-right: none; }
+    .adbox .sbox .link {
+      display: block;
+      padding: 10px 0; }
+    .adbox .sbox img {
+      display: block;
+      height: 100px;
+      margin: 10px auto; }
+    .adbox .sbox h6 {
+      color: #333;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 30px; }
+    .adbox .sbox p {
+      color: #666;
+      font-size: 16px;
+      line-height: 20px;
+      margin-bottom: 10px; }
+    .adbox .sbox:hover {
+      box-shadow: 0 0 12px rgba(80, 80, 80, 0.2) inset; }
+
+.indexHead {
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 10px; }
+  .indexHead h5 {
+    float: left;
+    color: #333;
+    font-size: 20px;
+    font-weight: 500px;
+    line-height: 30px; }
+  .indexHead .link {
+    float: right;
+    color: #666;
+    font-size: 16px;
+    line-height: 30px; }
+  .indexHead ul {
+    float: right;
+    overflow: hidden; }
+    .indexHead ul li {
+      float: left;
+      margin-left: 30px; }
+      .indexHead ul li a {
+        display: block;
+        color: #666;
+        font-size: 16px;
+        line-height: 30px; }
+      .indexHead ul li:hover a, .indexHead ul li.active a {
+        color: #333; }
+
+.gList.spec .list li {
+  border-right: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8; }
+  .gList.spec .list li:nth-child(3), .gList.spec .list li:last-child {
+    border-right: none; }
+
+.specOne {
+  float: left;
+  width: 50%;
+  height: 405px; }
+  .specOne img {
+    display: block;
+    width: 100%;
+    height: 405px; }
+
+.adbox.info {
+  height: 200px;
+  margin-bottom: 50px; }
+  .adbox.info .sbox img {
+    height: 80px;
+    margin: 20px auto; }
+  .adbox.info .link.pic {
+    padding: 0; }
+    .adbox.info .link.pic img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0; }
+  .adbox.info:hover {
+    box-shadow: 0 0 12px rgba(80, 80, 80, 0.2) inset; }

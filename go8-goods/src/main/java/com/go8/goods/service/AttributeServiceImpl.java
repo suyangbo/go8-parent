@@ -9,10 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class AttributeServiceImpl implements AttributeService{
+public class AttributeServiceImpl implements AttributeService {
 
     @Autowired
     private AttributeMapper attributeMapper;
+
     @Override
     public List<Attribute> getAttrAndValue(Attribute attr) {
         return attributeMapper.selectAttributeAndValue(attr);

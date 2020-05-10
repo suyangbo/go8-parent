@@ -1,6 +1,7 @@
 package com.go8.goods.service;
 
 import com.go8.goods.pojo.Catalog;
+
 import java.util.List;
 
 public interface CatalogService {

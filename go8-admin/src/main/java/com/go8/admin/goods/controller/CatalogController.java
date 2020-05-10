@@ -20,7 +20,7 @@ public class CatalogController {
     private CatalogService catalogService;
 
     @PostMapping("catalogs")
-    public Object add(@RequestBody Catalog catalog){
+    public Object add(@RequestBody Catalog catalog) {
         try {
             catalogService.add(catalog);
             return ServiceResponse.ok();
@@ -31,7 +31,7 @@ public class CatalogController {
     }
 
     @PutMapping("catalogs/{id}")
-    public Object update(@PathVariable Long id,@RequestBody Catalog catalog){
+    public Object update(@PathVariable Long id, @RequestBody Catalog catalog) {
         try {
             catalog.setId(id);
             catalogService.updateById(catalog);
@@ -43,7 +43,7 @@ public class CatalogController {
     }
 
     @DeleteMapping("/catalogs/{id}")
-    public Object delete(@PathVariable Long id){
+    public Object delete(@PathVariable Long id) {
         try {
             catalogService.delete(id);
             return ServiceResponse.ok();
@@ -54,8 +54,8 @@ public class CatalogController {
     }
 
     @GetMapping("catalogs/code")
-    public Object getCodeByCode(String code){
-        if(StringUtils.isEmpty(code)){
+    public Object getCodeByCode(String code) {
+        if (StringUtils.isEmpty(code)) {
             return ServiceResponse.illegalArgs();
         }
         try {
@@ -68,8 +68,8 @@ public class CatalogController {
     }
 
     @GetMapping("catalogs/{id}")
-    public Object getCatalogById(@PathVariable Long id){
-        if(id==null || id.longValue()<0){
+    public Object getCatalogById(@PathVariable Long id) {
+        if (id == null || id.longValue() < 0) {
             return ServiceResponse.illegalArgs();
         }
         try {
@@ -82,14 +82,14 @@ public class CatalogController {
     }
 
     @GetMapping("catalogs/sons")
-    public Object getCatalogByPid(Long pid){
-        if(pid==null || pid.longValue()<0){
+    public Object getCatalogByPid(Long pid) {
+        if (pid == null || pid.longValue() < 0) {
             return ServiceResponse.illegalArgs();
         }
         try {
             List<Catalog> list = catalogService.getSonsByPid(pid);
             List<CatalogTreeVO> vos = new ArrayList<>();
-            for (Catalog cat:list){
+            for (Catalog cat : list) {
                 CatalogTreeVO vo = toCatalogTreeVO(cat);
                 vos.add(vo);
             }

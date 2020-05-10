@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class AttributeValueServiceImpl implements AttributeValueService{
+public class AttributeValueServiceImpl implements AttributeValueService {
 
     @Autowired
     private AttributeValueMapper attributeValueMapper;

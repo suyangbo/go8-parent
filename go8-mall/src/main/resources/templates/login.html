@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>go8商城</title>
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+
+<body>
+    <!-- 顶部栏目 -->
+	<div id="header" th:insert="header :: header"></div>
+    <div class="wrap">
+       <h1 style="margin: 20px;">账号登陆</h1>
+          
+       <div class="container">
+       	<div id="login" style="width: 40%;">
+       <i-form ref="formValidate" :model="formValidate" :rules="ruleValidate">
+           <form-item label="" prop="userName">
+               <i-input v-model="formValidate.userName" placeholder="用户名/手机号码/邮箱">
+				   <Icon type="md-person" slot="prepend"/>
+			   </i-input>
+           </form-item>
+           <form-item label="" prop="password">
+               <i-input v-model="formValidate.password" placeholder="密码" type="password">
+				   <Icon type="md-lock" slot="prepend"/>
+			   </i-input>
+           </form-item>
+           <form-item>
+               <i-button type="primary" @click="handleSubmit('formValidate')">登  录</i-button>
+               <i-button  @click="handleReset('formValidate')" style="margin-left: 8px">重 置</i-button>
+           </form-item>
+       </i-form>
+       </div>
+       </div> 
+    </div>
+    </div>
+    <div id="footer" th:insert="footer :: copy"></div>
+    
+    <script th:inline="javascript">
+	var login =new Vue({
+		el:'#login',
+		data(){
+			return {
+				formValidate: {
+					userName: '',
+					password: ''
+				},
+				ruleValidate: {
+					userName: [
+						{ required: true, message: '登录名不能为空', trigger: 'blur' }
+					],
+					password: [
+						{ required: true, message: '密码不能为空', trigger: 'blur' },
+					]
+				},
+				returnUrl:/*[[${returnUrl}]]*/ ''
+			}
+		},
+		methods: {
+			handleSubmit (name) {
+				this.$refs[name].validate((valid) => {
+					console.log('login submit ')
+					if (valid) {
+						//this.$Message.success('Success!');
+						//判断是用户名,邮箱或者手机号
+						let user = {}
+						if(/^1[0-9]{10}$/.test(this.formValidate.userName)){
+							user.phone = this.formValidate.userName
+						}else if(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.formValidate.userName)){
+							user.email = this.formValidate.userName
+						}else{
+							user.userName = this.formValidate.userName
+						}
+						user.password = this.formValidate.password
+						//登录
+						jQuery.ajax({
+							url:GO8.DN.ROOT+"login",
+							type:'post',
+							data:user,
+							dataType:'json',
+							success:function(res){
+								if(res.status.code == 2000){
+									console.log('login success: '+res)
+									//本地存储
+									Cookies.set("token",res.data.token)
+									if(!login.returnUrl){
+										window.location.href = GO8.DN.INDEX
+										return	
+									}
+									if(login.returnUrl.indexOf("?") == -1)
+										window.location.href = login.returnUrl+"?token="+res.data.token
+									else{
+										window.location.href = login.returnUrl+"&token="+res.data.token
+									}
+								}else if(res.status.code == 1000){
+									login.$Message.error(res.data);
+								}else{
+									login.$Message.error(res.status.message);
+								}
+							}
+						})
+					} else {
+						this.$Message.error('表单数据不合法!');
+					}
+				})
+			},
+			handleReset (name) {
+				this.$refs[name].resetFields();
+			}
+		}
+	})
+    </script>
+</body>
+
+</html>
